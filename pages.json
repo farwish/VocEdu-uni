@@ -2,13 +2,47 @@
 	"pages": [{
 		"path": "pages/index/index",
 		"style": {
-			"navigationBarTitleText": "欢迎回来"
+			"navigationBarTitleText": ""
 		}
-	}],
+	},
+	{
+		"path" : "pages/video/video",
+		"style" : {
+			"navigationBarTitleText": "video"
+		}
+	},
+	{
+		"path" : "pages/home/home",
+		"style" : {
+			"navigationBarTitleText": "home"
+		}
+    }],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "uni",
+		"navigationBarTitleText": "题库",
 		"navigationBarBackgroundColor": "#007AFF",
 		"backgroundColor": "#FFFFFF"
+	},
+	"tabBar": {
+		"list": [
+			{
+				"text": "题库",
+				"pagePath": "pages/index/index",
+				"iconPath": "static/icon/index.png",
+				"selectedIconPath": "static/icon/index-active.png"
+			},
+			{
+				"text": "课程",
+				"pagePath": "pages/video/video",
+				"iconPath": "static/icon/video.png",
+				"selectedIconPath": "static/icon/video-active.png"
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/home/home",
+				"iconPath": "static/icon/home.png",
+				"selectedIconPath": "static/icon/home-active.png"
+			}
+		]
 	}
 }
