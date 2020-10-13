@@ -1,4 +1,4 @@
-const apiBaseUrl = '' // 'http://127.0.0.1:8000'
+const apiBaseUrl = 'http://127.0.0.1:8000' // 'http://127.0.0.1:8000'
 
 const apiPrefix = apiBaseUrl + '/api'
 
@@ -19,7 +19,7 @@ export const apiRequest = (options) => {
 						icon: 'none'
 					})
 				}
-				resolve(res)
+				resolve(res.data)
 			},
 			fail: (err) => {
 				return uni.showToast({

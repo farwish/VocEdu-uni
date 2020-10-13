@@ -2,7 +2,29 @@
 	"pages": [{
 		"path": "pages/index/index",
 		"style": {
-			"navigationBarTitleText": ""
+			"navigationBarTitleText": "",
+			"app-plus": {
+				"titleNView": {
+					"buttons" : [{
+						"text" : "",
+						"fontSize" : "24",
+						"select" : true,
+						"width" : "auto"
+					}]
+				}
+			}
+		}
+	},
+	{
+		"path": "pages/index/current-subject",
+		"style": {
+			"navigationBarTitleText": "切换科目"
+		}
+	},
+	{
+		"path": "pages/index/chose-subject",
+		"style": {
+			"navigationBarTitleText": "切换科目"
 		}
 	},
 	{
@@ -19,7 +41,7 @@
     }],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "题库",
+		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#007AFF",
 		"backgroundColor": "#FFFFFF"
 	},

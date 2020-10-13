@@ -13,13 +13,18 @@
 			const self = this
 			self.loadChosenCategory()
 		},
+		onNavigationBarButtonTap (e) {
+			// chose subject
+			uni.navigateTo({
+				url: '/pages/index/current-subject'
+			})
+		},
 		methods: {
 			async loadChosenCategory () {
 				const self = this
 				
-				const dropDownChar = ' ▾'
 				uni.setNavigationBarTitle({
-					title: "执业药师（中药）" + dropDownChar
+					title: "执业药师（中药）"
 				});
 				
 				let res = await self.$apiRequest({
