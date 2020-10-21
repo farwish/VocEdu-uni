@@ -1,6 +1,6 @@
 <template>
 	<view>
-		课程
+		[注册]建设中
 	</view>
 </template>
 

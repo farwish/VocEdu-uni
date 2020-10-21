@@ -4,42 +4,59 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-			}
-		},
-		onLoad() {
-			const self = this
-			self.loadChosenCategory()
-		},
-		onNavigationBarButtonTap (e) {
-			// chose subject
-			uni.navigateTo({
-				url: '/pages/index/current-subject'
-			})
-		},
-		methods: {
-			async loadChosenCategory () {
-				const self = this
-				
-				uni.setNavigationBarTitle({
-					title: "执业药师（中药）"
-				});
-				
-				let res = await self.$apiRequest({
-					url: self.$apiList.defaultChosenSubject
-				})
-				console.log(res)
-			}
-		}
-	}
+export default {
+    data() {
+        return {
+        }
+    },
+    onLoad() {
+    },
+    onShow() {
+        const self = this
+
+        self.getPractiseRecord()
+    },
+    onNavigationBarButtonTap (e) {
+        const self = this
+
+        // goto current subject
+        uni.navigateTo({
+            url: '/pages/index/current-subject'
+        })
+    },
+    methods: {
+        getPractiseRecord () {
+            const self = this
+
+            self.$apiRequest({
+                url: self.$apiList.practiseRecord,
+                method: 'GET',
+                header: {
+                    Authorization: 'Bearer ' + self.$store.state.member.memberToken
+                }
+            }).then((res) => {
+                if (res.code == 0 && res.data.length == 0) {
+                    // goto chose subject
+                    uni.navigateTo({
+                        url: './chose-subject'
+                    })
+                } else {
+                    uni.setNavigationBarTitle({
+                        title: res.data.categoryName
+                    });
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+    }
+}
 </script>
 
 <style>
-	.container {
-		padding: 20px;
-		font-size: 14px;
-		line-height: 24px;
-	}
+.container {
+    padding: 20px;
+    font-size: 14px;
+    line-height: 24px;
+}
 </style>

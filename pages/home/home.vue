@@ -1,6 +1,6 @@
 <template>
 	<view>
-		home
+		我的
 	</view>
 </template>
 
