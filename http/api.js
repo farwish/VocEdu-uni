@@ -7,6 +7,9 @@ export const apiList = {
     accountInfo: apiPrefix + '/auth/me',
 
     practiseRecord: apiPrefix + '/practise/record',
+    practiseSummary: apiPrefix + '/practise/summary',
+
+    practiseCurrentSubjectInfo: apiPrefix + '/practise/current-subject',
 
     categoryIndex: apiPrefix + '/category/index'
 }

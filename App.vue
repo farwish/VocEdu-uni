@@ -22,23 +22,22 @@ export default {
                     Authorization: `Bearer ${memberToken}`
                 }
             }).then((res) => {
-                // No login
-                if (res.code != 0 || res.data.length == 0) {
+                if (res.code == 0 && res.data.length > 0) {
+                    // Recover store info
+                    self.$store.commit('member/setHasLogin', true)
+                    self.$store.commit('member/setMemberToken', memberToken)
+                } else {
                     // clear invalid token
                     uni.removeStorageSync(self.$store.state.setting.member_token_key)
 
                     // redirect
                     uni.redirectTo({
-                        url: './pages/account/signin'
+                        url: '/pages/account/signin'
                     })
-                } else {
-                    // Recover store info
-                    self.$store.commit('member/setHasLogin', true)
-                    self.$store.commit('member/setMemberToken', memberToken)
                 }
             }).catch((err) => {
                 uni.redirectTo({
-                    url: './pages/account/signin'
+                    url: '/pages/account/signin'
                 })
             })
         }

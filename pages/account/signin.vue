@@ -3,11 +3,11 @@
 			<view class="input-group">
 				<view class="input-row">
 					<text class="title">手机号：</text>
-          <input class="uni-input" v-model="mobile" />
+                    <input class="uni-input" v-model="mobile" />
 				</view>
 				<view class="input-row">
 					<text class="title">密码：</text>
-          <input class="uni-input" v-model="password" />
+                    <input class="uni-input" v-model="password" />
 				</view>
 			</view>
 			<view class="btn-row">
@@ -72,7 +72,7 @@ export default {
                                     uni.switchTab({
                                         url: '/pages/index/index'
                                     })
-                                }, 1500)
+                                }, 1000)
                             }
                         })
                     }

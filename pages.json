@@ -31,13 +31,13 @@
 		,{
 			"path" : "pages/video/video",
 			"style" : {
-				"navigationBarTitleText": "video"
+				"navigationBarTitleText": "课程"
 			}
 		}
 		,{
 			"path" : "pages/home/home",
 			"style" : {
-				"navigationBarTitleText": "home"
+				"navigationBarTitleText": "我的"
 			}
 		}
         ,{
