@@ -1,14 +1,14 @@
 <template>
 	<view>
         <uni-list>
-            <uni-list-item :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'location'}" :title="currentSubjectInfo.categoryName" ></uni-list-item>
-            <uni-list-item title="科目题量" :rightText="currentSubjectInfo.questionsCount" note=""></uni-list-item>
-            <uni-list-item title="开通状态" :rightText="currentSubjectInfo.openStatus" note=""></uni-list-item>
-            <uni-list-item title="到期时间" :rightText="currentSubjectInfo.expiredAt" note=""></uni-list-item>
+            <!-- <uni-list-item rightText="切换科目" :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'location'}" :title="currentSubjectInfo.categoryName" @click="gotoChoseSubject()"></uni-list-item> -->
+            <uni-list-item rightText="切换科目" :title="currentSubjectInfo.categoryName" @click="gotoChoseSubject()"></uni-list-item>
+            <uni-list-item :showArrow="false" title="科目题量" :rightText="currentSubjectInfo.questionsCount" note=""></uni-list-item>
+            <uni-list-item :showArrow="false" title="开通状态" :rightText="currentSubjectInfo.openStatus" note=""></uni-list-item>
+            <uni-list-item :showArrow="false" title="到期时间" :rightText="currentSubjectInfo.expiredAt" note=""></uni-list-item>
         </uni-list>
 
-		<button type="primary" @click="gotoChoseSubject()">切换科目</button>
-		<button type="default" @click="gotoMySubject()">我的题库</button>
+		<!-- <button type="primary" @click="gotoChoseSubject()">切换科目</button> -->
 	</view>
 </template>
 
@@ -40,12 +40,6 @@ export default {
         gotoChoseSubject () {
             uni.navigateTo({
                 url: '/pages/index/chose-subject'
-            })
-        },
-        gotoMySubject () {
-            uni.showToast({
-                title: '建设中',
-                icon: 'none'
             })
         }
     }

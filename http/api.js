@@ -26,19 +26,39 @@ export const apiRequest = (options) => {
             data: options.data || {},
             header: options.header ? Object.assign({ Accept: 'application/json' }, options.header) : {},
             success: (res) => {
-                if (res.data.code != 0) {
+                // console.log(res)
+                if (res.statusCode == 200) {
+                    if (res.data.code != 0) {
+                        uni.showToast({
+                            title: res.data.message,
+                            icon: 'none'
+                        })
+                    }
+                    // handle data wrapped by vue ( __ob__: Observer )
+                    let retData = parseVueObj(res.data)
+                    resolve(retData)
+                } else if (res.statusCode == 401) {
+                    // Deal with 401 (Unauthorized)
                     uni.showToast({
                         title: res.data.message,
                         icon: 'none'
                     })
+                    // Close other pages and redirect
+                    uni.redirectTo({
+                        url: '/pages/account/signin'
+                    })
+                    resolve('')
+                } else {
+                    uni.showToast({
+                        title: '内部错误',
+                        icon: 'none'
+                    })
+                    resolve('')
                 }
-                // handle data wrapped by vue ( __ob__: Observer )
-                let retData = parseVueObj(res.data)
-                resolve(retData)
             },
             fail: (err) => {
                 uni.showToast({
-                    title: '连接异常 ~',
+                    title: '连接异常',
                     icon: 'none'
                 })
                 reject(err)

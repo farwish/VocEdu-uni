@@ -1,8 +1,18 @@
 <template>
 	<view class="container">
-        <uni-notice-bar single="true" :text="wrongs"></uni-notice-bar>
-        <uni-notice-bar single="true" :text="collects"></uni-notice-bar>
-        <uni-notice-bar single="true" :text="notes"></uni-notice-bar>
+        <uni-grid :column="3" :show-border="false"  :highlight="false" class="gridCustom">
+            <uni-grid-item>
+                <text class="text">{{ wrongs }}</text>
+            </uni-grid-item>
+            <uni-grid-item>
+                <text class="text">{{ collects }}</text>
+            </uni-grid-item>
+            <uni-grid-item>
+                <text class="text">{{ notes }}</text>
+            </uni-grid-item>
+        </uni-grid>
+
+        <uni-notice-bar :single="true" :showIcon="true" :scrollable="true" :speed=70 :text="noticeBarText"></uni-notice-bar>
 
         <uni-card
             :is-full="true"
@@ -45,13 +55,23 @@
 <script>
 import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
 import uniCard from '@/components/uni-card/uni-card.vue'
+
+import uniGrid from "@/components/uni-grid/uni-grid.vue"
+import uniGridItem from "@/components/uni-grid-item/uni-grid-item.vue"
+
 export default {
-    components: {uniNoticeBar, uniCard},
+    components: {
+        uniNoticeBar, uniCard,
+        uniGrid, uniGridItem
+    },
     data() {
         return {
+            chapterName: '',
+            questionSerialNumber: 0,
+
             wrongsCount: '',
             collectsCount: '',
-            notesCount: '',
+            notesCount: ''
         }
     },
     onLoad() {
@@ -89,6 +109,8 @@ export default {
                     uni.setNavigationBarTitle({
                         title: res.data.categoryName
                     });
+                    self.chapterName = res.data.chapterName
+                    self.questionSerialNumber = res.data.questionSerialNumber
                 }
             }
         },
@@ -140,13 +162,16 @@ export default {
     },
     computed: {
         wrongs () {
-            return this.wrongsCount + ' 错题'
+            return '错题 ' + this.wrongsCount
         },
         collects () {
-            return this.collectsCount + ' 收藏'
+            return '收藏 ' + this.collectsCount
         },
         notes () {
-            return this.notesCount + ' 笔记'
+            return '笔记 ' + this.notesCount
+        },
+        noticeBarText () {
+            return '上次做到《' + this.chapterName + '》第 ' + this.questionSerialNumber + ' 题。'
         }
     }
 }
@@ -154,8 +179,16 @@ export default {
 
 <style>
 .container {
-    padding: 20px;
+    /* padding: 20px; */
     font-size: 14px;
     line-height: 24px;
+}
+.text {
+    text-align: center;
+    color: #FFFFFF;
+    padding: 100rpx 0;
+}
+.gridCustom {
+    background-color: #E8581B;
 }
 </style>

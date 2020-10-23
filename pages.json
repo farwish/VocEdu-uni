@@ -19,7 +19,7 @@
 		,{
 			"path": "pages/index/current-subject",
 			"style": {
-				"navigationBarTitleText": "切换科目"
+				"navigationBarTitleText": "当前科目"
 			}
 		}
 		,{

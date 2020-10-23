@@ -6,23 +6,27 @@ export default {
 	onShow: function() {
         const self = this
 
-        const memberToken = uni.getStorageSync(self.$store.state.setting.member_token_key)
+        // Deal with page loaded at first time.
+        // Check login!
 
-        if (memberToken == '') {
+        let memberToken = uni.getStorageSync(self.$store.state.setting.member_token_key)
+        if (! memberToken) {
             // Close other pages and redirect
             uni.redirectTo({
-                url: './pages/account/signin'
+                url: '/pages/account/signin'
             })
         } else {
             // Request to check
             self.$apiRequest({
                 url: self.$apiList.accountInfo,
-                method: 'post',
+                method: 'POST',
                 header: {
                     Authorization: `Bearer ${memberToken}`
                 }
             }).then((res) => {
-                if (res.code == 0 && res.data.length > 0) {
+                // console.log(res.data);
+                if (res.code == 0 && res.data) {
+                    // res.data format is {mobile: "13185826384", email: null, name: null}
                     // Recover store info
                     self.$store.commit('member/setHasLogin', true)
                     self.$store.commit('member/setMemberToken', memberToken)
