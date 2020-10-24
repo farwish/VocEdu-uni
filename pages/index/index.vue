@@ -18,37 +18,11 @@
             :is-full="true"
             :is-shadow="true"
             note="海量题库 快速背题"
-            @click="choseChapter()"
+            @click="choseChapter(categoryId)"
         >
             章节练习
         </uni-card>
 
-        <uni-card
-            :is-full="true"
-            :is-shadow="true"
-            note="随机组卷 真实模拟"
-            @click="simulateExam()"
-        >
-            模拟考试
-        </uni-card>
-
-        <uni-card
-            :is-full="true"
-            :is-shadow="true"
-            note="精华热题 易错试题"
-            @click="hotQuestion()"
-        >
-            精华热题
-        </uni-card>
-
-        <uni-card
-            :is-full="true"
-            :is-shadow="true"
-            note="考试大纲 应试技巧"
-            @click="examGuide()"
-        >
-            考试指南
-        </uni-card>
 	</view>
 </template>
 
@@ -66,12 +40,14 @@ export default {
     },
     data() {
         return {
+            categoryId: '',
+            categoryName: '',
             chapterName: '',
             questionSerialNumber: 0,
 
-            wrongsCount: '',
-            collectsCount: '',
-            notesCount: ''
+            wrongsCount: 0,
+            collectsCount: 0,
+            notesCount: 0
         }
     },
     onLoad() {
@@ -79,8 +55,10 @@ export default {
     async onShow() {
         const self = this
 
-        self.getPractiseRecord()
+        self.$forceUpdate()
+
         self.getPractiseSummary()
+        self.getPractiseRecord()
     },
     onNavigationBarButtonTap (e) {
         uni.navigateTo({
@@ -109,6 +87,12 @@ export default {
                     uni.setNavigationBarTitle({
                         title: res.data.categoryName
                     });
+
+                    // For chose-chapter page
+                    self.categoryId = res.data.categoryId
+                    self.categoryName = res.data.categoryName
+
+                    // For notise bar
                     self.chapterName = res.data.chapterName
                     self.questionSerialNumber = res.data.questionSerialNumber
                 }
@@ -131,34 +115,12 @@ export default {
                 self.notesCount = res.data.notesCount
             }
         },
-        async getPractiseCollectsCount () {
-        },
-        async getPractiseNotsCount () {
-        },
-        choseChapter () {
-            uni.showToast({
-                title: '章节练习',
-                icon: 'none'
+        choseChapter (categoryId) {
+            const self = this
+            uni.navigateTo({
+                url: '/pages/index/chose-chapter?cid=' + self.categoryId + '&name=' + self.categoryName
             })
-        },
-        simulateExam () {
-            uni.showToast({
-                title: '模拟考试',
-                icon: 'none'
-            })
-        },
-        hotQuestion () {
-            uni.showToast({
-                title: '精华热题',
-                icon: 'none'
-            })
-        },
-        examGuide () {
-            uni.showToast({
-                title: '考试指南',
-                icon: 'none'
-            })
-        },
+        }
     },
     computed: {
         wrongs () {
@@ -171,7 +133,7 @@ export default {
             return '笔记 ' + this.notesCount
         },
         noticeBarText () {
-            return '上次做到《' + this.chapterName + '》第 ' + this.questionSerialNumber + ' 题。'
+            return '当前做到《' + this.chapterName + '》第 ' + this.questionSerialNumber + ' 题。'
         }
     }
 }

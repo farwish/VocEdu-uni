@@ -28,7 +28,7 @@ export default {
         const self = this
 
         const res = await self.$apiRequest({
-            url: self.$apiList.practiseCurrentSubjectInfo,
+            url: self.$apiList.practiseCurrentSubject,
             header: {
                 Authorization: 'Bearer ' + self.$store.state.member.memberToken
             }

@@ -1,4 +1,4 @@
-const apiBaseUrl = 'http://127.0.0.1:8000' // 'http://127.0.0.1:8000'
+const apiBaseUrl = 'http://127.0.0.1:8000'
 const apiPrefix = apiBaseUrl + '/api'
 
 export const apiList = {
@@ -9,9 +9,10 @@ export const apiList = {
     practiseRecord: apiPrefix + '/practise/record',
     practiseSummary: apiPrefix + '/practise/summary',
 
-    practiseCurrentSubjectInfo: apiPrefix + '/practise/current-subject',
+    practiseCurrentSubject: apiPrefix + '/practise/current-subject',
 
-    categoryIndex: apiPrefix + '/category/index'
+    categoryIndex: apiPrefix + '/category/index',
+    chapterIndex: apiPrefix + '/chapter/index'
 }
 
 const parseVueObj = (obj) => {

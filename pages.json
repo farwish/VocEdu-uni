@@ -52,6 +52,22 @@
                 "navigationBarTitleText": "用户注册"
             }
         }
+        ,{
+            "path" : "pages/index/chose-chapter",
+            "style" : {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+
+        }
+        ,{
+            "path" : "pages/question/answer-sheet",
+            "style" : {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
