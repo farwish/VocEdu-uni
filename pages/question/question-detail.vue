@@ -23,6 +23,10 @@
             <uni-list-item :showArrow="false" title="正确答案" :note="questionDetail.right_answer"></uni-list-item>
             <uni-list-item :showArrow="false" title="难度" :note="questionDetail.difficulty"></uni-list-item>
         </uni-list>
+
+        <uni-list class="listCustom" v-if="questionDetail">
+            <uni-list-item :showArrow="false" title="解析" :note="questionDetail.analysis"></uni-list-item>
+        </uni-list>
 	</view>
 </template>
 
@@ -67,9 +71,29 @@ export default {
                 self.questionDetail = questionDetail.data
             }
         },
-        answerChange (e) {
-            const value = e.detail
+        async answerChange (e) {
+            const self = this
 
+            const value = e.detail.value
+            self.myAnswer = value
+
+            const cid = self.$route.query.cid
+            const qid = self.$route.query.qid
+
+            const practiseRecordRes = await self.$apiRequest({
+                url: self.$apiList.practiseRecord,
+                method: 'POST',
+                header: {
+                    Authorization: 'Bearer ' + self.$store.state.member.memberToken
+                },
+                data: {
+                    cid: cid,
+                    qid: qid,
+                    reply_answer: value
+                }
+            })
+
+            console.log(practiseRecordRes)
         },
         gotoAnswerSheet () {
             const self = this

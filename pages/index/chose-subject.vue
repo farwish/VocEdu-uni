@@ -60,7 +60,7 @@ export default {
                 url: self.$apiList.practiseRecord,
                 method: 'POST',
                 data: {
-                    category_id: categoryId
+                    cid: categoryId
                 },
                 header: {
                     Authorization: 'Bearer ' + self.$store.state.member.memberToken
