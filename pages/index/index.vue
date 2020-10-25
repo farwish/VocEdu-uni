@@ -1,15 +1,15 @@
 <template>
 	<view class="container">
-        <uni-grid :column="3" :show-border="false"  :highlight="false" class="gridCustom">
+        <uni-grid :column="2" :show-border="false"  :highlight="false" class="gridCustom">
             <uni-grid-item>
                 <text class="text">{{ wrongs }}</text>
             </uni-grid-item>
             <uni-grid-item>
-                <text class="text">{{ collects }}</text>
-            </uni-grid-item>
-            <uni-grid-item>
                 <text class="text">{{ notes }}</text>
             </uni-grid-item>
+            <!-- <uni-grid-item>
+                <text class="text">{{ collects }}</text>
+            </uni-grid-item> -->
         </uni-grid>
 
         <uni-notice-bar :single="true" :showIcon="true" :scrollable="true" :speed=70 :text="noticeBarText"></uni-notice-bar>
@@ -28,6 +28,7 @@
 
 <script>
 import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
+
 import uniCard from '@/components/uni-card/uni-card.vue'
 
 import uniGrid from "@/components/uni-grid/uni-grid.vue"
@@ -35,7 +36,8 @@ import uniGridItem from "@/components/uni-grid-item/uni-grid-item.vue"
 
 export default {
     components: {
-        uniNoticeBar, uniCard,
+        uniNoticeBar,
+        uniCard,
         uniGrid, uniGridItem
     },
     data() {
@@ -55,10 +57,12 @@ export default {
     async onShow() {
         const self = this
 
-        self.$forceUpdate()
-
+        // Load data
         self.getPractiseSummary()
         self.getPractiseRecord()
+
+        // Force update page
+        self.$forceUpdate()
     },
     onNavigationBarButtonTap (e) {
         uni.navigateTo({
@@ -118,7 +122,7 @@ export default {
         choseChapter (categoryId) {
             const self = this
             uni.navigateTo({
-                url: '/pages/index/chose-chapter?cid=' + self.categoryId + '&name=' + self.categoryName
+                url: '/pages/index/chose-chapter?cid=' + self.categoryId + '&name=' + self.categoryName + '&notice=' + self.noticeBarText
             })
         }
     },
@@ -133,7 +137,7 @@ export default {
             return '笔记 ' + this.notesCount
         },
         noticeBarText () {
-            return '当前做到《' + this.chapterName + '》第 ' + this.questionSerialNumber + ' 题。'
+            return '上次做到《' + this.chapterName + '》第 ' + this.questionSerialNumber + ' 题'
         }
     }
 }
@@ -151,6 +155,7 @@ export default {
     padding: 100rpx 0;
 }
 .gridCustom {
+    height: 250rpx;
     background-color: #E8581B;
 }
 </style>

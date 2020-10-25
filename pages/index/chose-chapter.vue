@@ -1,12 +1,12 @@
 <template>
 	<view>
         <uni-list>
-            <uni-list-item :showArrow="true" title="继续上次练习" note="上次做到 xx"></uni-list-item>
+            <uni-list-item :showArrow="false" title="" :note="categoryNotice"></uni-list-item>
         </uni-list>
 
         <uni-list>
             <template v-for="item in chapterList">
-                <uni-list-item :key="item.id" :title="item.name" @click="loadChapter(item.id)"></uni-list-item>
+                <uni-list-item :key="item.id" :title="item.name" @click="loadChapter(item.id, item.name)"></uni-list-item>
             </template>
         </uni-list>
 	</view>
@@ -21,52 +21,65 @@ export default {
     },
     data() {
         return {
+            categoryId: '',
+            categoryName: '',
+            categoryNotice: '',
+
             chapterList: []
         }
     },
     async onShow () {
         const self = this
 
-        self.loadChapter(0)
+        // Init query string, categoryId, categoryName, categoryNotice
+        self.categoryId = this.$route.query.cid
+
+        self.categoryName = this.$route.query.name
+        uni.setNavigationBarTitle({
+            title: self.categoryName
+        });
+
+        self.categoryNotice = this.$route.query.notice
+
+        // Then load chapter
+        self.loadChapter(0, null)
+
+        // Force update page
+        self.$forceUpdate()
     },
     methods: {
-        async loadChapter (pid) {
+        async loadChapter (pid, chapterName) {
             const self = this
 
-            // chapter its categoryName
-            const name = this.$route.query.name
-            uni.setNavigationBarTitle({
-                title: name
-            });
-
-            // chapter its categoryId
-            const cid = this.$route.query.cid
-
-            if (cid == '' || cid == 'undefined') {
+            if (self.categoryId == '' || self.categoryId == 'undefined') {
                 uni.navigateTo({
                     url: '/pages/index/index'
                 })
             }
 
-            const res = await self.$apiRequest({
+            const chapterRes = await self.$apiRequest({
                 url: self.$apiList.chapterIndex,
                 method: 'POST',
                 header: {
                     Authorization: 'Bearer ' + self.$store.state.member.memberToken
                 },
                 data: {
-                    cid: cid,
-                    pid: pid
+                    cid: self.categoryId,
+                    pid: pid // chapter parent_id
                 }
             })
 
-            if (res.code == 0) {
-                if (res.data.length > 0) {
+            if (chapterRes.code == 0) {
+                if (chapterRes.data.length > 0) {
                     // assign chapter data
-                    self.chapterList = res.data
+                    self.chapterList = chapterRes.data
                 } else {
-                   // last chapter request question list
-                   
+                    // last chapter: pid(parent_id) as chapter_id to query questions
+                    const chapterId = pid
+
+                    uni.navigateTo({
+                        url: '/pages/question/answer-sheet?cid=' + chapterId + '&name=' + chapterName
+                    })
                 }
             }
 

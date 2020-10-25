@@ -63,10 +63,25 @@
         ,{
             "path" : "pages/question/answer-sheet",
             "style" : {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "题卡",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/question/question-detail",
+            "style" : {
+                "navigationBarTitleText": "题目",
                 "enablePullDownRefresh": false
             }
 
+        }
+        ,{
+            "path" : "pages/question/question-note",
+            "style" : {
+                "navigationBarTitleText": "笔记",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
 	"globalStyle": {

@@ -8,11 +8,15 @@ export const apiList = {
 
     practiseRecord: apiPrefix + '/practise/record',
     practiseSummary: apiPrefix + '/practise/summary',
-
     practiseCurrentSubject: apiPrefix + '/practise/current-subject',
 
     categoryIndex: apiPrefix + '/category/index',
-    chapterIndex: apiPrefix + '/chapter/index'
+    categoryBuy: apiPrefix + '/category/buy',
+
+    chapterIndex: apiPrefix + '/chapter/index',
+    questionIndex: apiPrefix + '/question/index',
+    questionDetail: apiPrefix + '/question/detail',
+    questionNote: apiPrefix + '/question/note'
 }
 
 const parseVueObj = (obj) => {
