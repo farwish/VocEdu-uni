@@ -3,7 +3,7 @@
         <button size="mini" class="tabBtn" :disabled="true">题卡</button>
 
         <uni-grid :column="8" @change="gridClicked" class="gridCustom">
-            <uni-grid-item v-for="(item, idx) in questionList" :index="item.id" class="gridItemCustom">
+            <uni-grid-item v-for="(item, idx) in questionList" :index="item.id" :class="item.done ? 'questionDone' : ''">
                 <text class="text">{{ idx + 1 }}</text>
             </uni-grid-item>
         </uni-grid>
@@ -47,7 +47,7 @@ export default {
         })
 
         if (questionRes.code == 0 && questionRes.data) {
-            self.questionList = questionRes.data.questionIds
+            self.questionList = questionRes.data.questionList
             self.openStatus = questionRes.data.openStatus
         }
 
@@ -111,5 +111,9 @@ export default {
 
 .tabBtn {
     margin: 20rpx;
+}
+
+.questionDone {
+    background-color: #4CD964;
 }
 </style>

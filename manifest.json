@@ -48,7 +48,7 @@
         }
     },
     "h5" : {
-        "title" : "vocmob",
+        "title" : "模拟考试系统",
         "router" : {
             "mode" : "hash",
             "base" : "/vocmob"
@@ -65,6 +65,7 @@
                 "target" : "http://127.0.0.1:8000/",
                 "changeOrigin" : true
             }
-        }
+        },
+        "domain" : "121.41.123.125:8889"
     }
 }

@@ -6,13 +6,11 @@
 
         <uni-list class="listCustom" v-if="questionDetail">
             <uni-list-item :showArrow="false" :title="questionDetail.title"></uni-list-item>
-            <!-- <template v-for="(item, key) in questionDetail.option_answer">
-                <uni-list-item :showArrow="false" :title="item" note=""></uni-list-item>
-            </template> -->
+
             <radio-group @change="answerChange">
                 <label v-for="(item, key) in questionDetail.option_answer" :key="key">
                     <view class="radioLabelPd">
-                        <radio :value="key" />{{ key }}. {{ item }}
+                        <radio :checked="key == myAnswer" :value="key" />{{ key }}. {{ item }}
                     </view>
                 </label>
             </radio-group>
@@ -54,7 +52,7 @@ export default {
         async loadQuestionDetail (qid) {
             const self = this
 
-            const questionDetail = await self.$apiRequest({
+            const questionDetailRes = await self.$apiRequest({
                 url: self.$apiList.questionDetail,
                 method: 'POST',
                 header: {
@@ -65,10 +63,9 @@ export default {
                 }
             })
 
-            console.log(questionDetail)
-
-            if (questionDetail.code == 0 && questionDetail.data) {
-                self.questionDetail = questionDetail.data
+            if (questionDetailRes.code == 0 && questionDetailRes.data) {
+                self.questionDetail = questionDetailRes.data.questionDetail
+                self.myAnswer = questionDetailRes.data.recordReplyAnswer
             }
         },
         async answerChange (e) {
