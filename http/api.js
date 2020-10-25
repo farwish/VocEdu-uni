@@ -48,11 +48,13 @@ export const apiRequest = (options) => {
                         title: res.data.message,
                         icon: 'none'
                     })
-                    // Close other pages and redirect
-                    uni.redirectTo({
-                        url: '/pages/account/signin'
-                    })
-                    resolve('')
+                    setTimeout(function () {
+                        // Close other pages and redirect
+                        uni.redirectTo({
+                            url: '/pages/account/signin'
+                        })
+                        resolve('')
+                    }, 1500)
                 } else {
                     uni.showToast({
                         title: '内部错误',

@@ -137,7 +137,7 @@ export default {
             return '笔记 ' + this.notesCount
         },
         noticeBarText () {
-            return '上次做到《' + this.chapterName + '》第 ' + this.questionSerialNumber + ' 题'
+            return '当前做到《' + this.chapterName + '》第 ' + this.questionSerialNumber + ' 题'
         }
     }
 }
