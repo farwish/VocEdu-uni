@@ -1,5 +1,5 @@
 {
-    "name" : "vocfe",
+    "name" : "vocmob",
     "appid" : "",
     "description" : "",
     "versionName" : "1.0.0",
@@ -42,7 +42,7 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx08a70fe16af2a144",
         "setting" : {
             "urlCheck" : true
         }

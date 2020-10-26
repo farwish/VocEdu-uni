@@ -58,8 +58,8 @@ export default {
         const self = this
 
         // Load data
-        self.getPractiseSummary()
-        self.getPractiseRecord()
+        await self.getPractiseSummary()
+        await self.getPractiseRecord()
 
         // Force update page
         self.$forceUpdate()

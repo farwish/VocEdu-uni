@@ -1,4 +1,5 @@
 const apiBaseUrl = 'http://127.0.0.1:8000'
+
 const apiPrefix = apiBaseUrl + '/api'
 
 export const apiList = {
