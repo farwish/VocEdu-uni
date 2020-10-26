@@ -2,10 +2,10 @@
 	<view class="container">
         <uni-grid :column="2" :show-border="false"  :highlight="false" class="gridCustom">
             <uni-grid-item>
-                <text class="text">{{ wrongs }}</text>
+                <text class="text">错题 {{ wrongsCount }}</text>
             </uni-grid-item>
             <uni-grid-item>
-                <text class="text">{{ notes }}</text>
+                <text class="text">笔记 {{ notesCount }}</text>
             </uni-grid-item>
             <!-- <uni-grid-item>
                 <text class="text">{{ collects }}</text>
@@ -127,15 +127,6 @@ export default {
         }
     },
     computed: {
-        wrongs () {
-            return '错题 ' + this.wrongsCount
-        },
-        collects () {
-            return '收藏 ' + this.collectsCount
-        },
-        notes () {
-            return '笔记 ' + this.notesCount
-        },
         noticeBarText () {
             return '当前做到《' + this.chapterName + '》第 ' + this.questionSerialNumber + ' 题'
         }
