@@ -27,6 +27,11 @@ export default {
             password: '',
         }
     },
+    onShow () {
+        uni.setNavigationBarTitle({
+            title: '用户登录'
+        });
+    },
     methods: {
         mobLogin () {
             const self = this

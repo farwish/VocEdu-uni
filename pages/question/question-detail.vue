@@ -7,13 +7,17 @@
         <uni-list class="listCustom" v-if="questionDetail">
             <uni-list-item :showArrow="false" :title="questionDetail.title"></uni-list-item>
 
-            <radio-group @change="answerChange">
+            <!-- 单选，判断 -->
+            <radio-group v-if="questionDetail.pattern_classify == 1 || questionDetail.pattern_classify == 4" @change="answerChange">
                 <label v-for="(item, key) in questionDetail.option_answer" :key="key">
                     <view class="radioLabelPd">
                         <radio :checked="key == myAnswer" :value="key" />{{ key }}. {{ item }}
                     </view>
                 </label>
             </radio-group>
+
+            <!-- 填空 -->
+            <input v-if="questionDetail.pattern_classify == 5" @input="myAnswerInput" :value="myAnswer" class="answerInput" focus placeholder="输入答案" />
         </uni-list>
 
         <uni-list class="listCustom" v-if="questionDetail">
@@ -71,13 +75,19 @@ export default {
         async answerChange (e) {
             const self = this
 
-            const value = e.detail.value
-            self.myAnswer = value
+            self.myAnswer = e.detail.value
+
+            const practiseRecordRes = self.saveRecord(self.myAnswer)
+
+            console.log(practiseRecordRes)
+        },
+        async saveRecord (value) {
+            const self = this
 
             const cid = self.$route.query.cid
             const qid = self.$route.query.qid
 
-            const practiseRecordRes = await self.$apiRequest({
+            return await self.$apiRequest({
                 url: self.$apiList.practiseRecord,
                 method: 'POST',
                 header: {
@@ -89,8 +99,6 @@ export default {
                     reply_answer: value
                 }
             })
-
-            console.log(practiseRecordRes)
         },
         gotoAnswerSheet () {
             const self = this
@@ -111,6 +119,13 @@ export default {
             uni.redirectTo({
                 url: '/pages/question/question-note?qid=' + qid + '&cid=' + cid + '&name=' + name
             })
+        },
+        async myAnswerInput (event) {
+            const self = this
+
+            self.myAnswer = event.target.value
+
+            const practiseRecordRes = await self.saveRecord(self.myAnswer)
         }
     }
 }
@@ -129,5 +144,9 @@ export default {
 
 .radioLabelPd {
     padding: 15rpx 30rpx;
+}
+
+.answerInput {
+    padding: 0 0 20rpx 32rpx;
 }
 </style>
