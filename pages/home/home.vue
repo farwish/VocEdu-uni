@@ -13,6 +13,16 @@ export default {
 
         }
     },
+    onShow() {
+        const self = this
+
+        uni.setNavigationBarTitle({
+            title: '我的'
+        });
+
+        // Force update page
+        self.$forceUpdate()
+    },
     methods: {
         mobLogout () {
             const self = this

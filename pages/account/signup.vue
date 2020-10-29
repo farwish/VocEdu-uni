@@ -29,6 +29,16 @@ export default {
             smsCode: ''
         }
     },
+    onShow() {
+        const self = this
+
+        uni.setNavigationBarTitle({
+            title: '用户注册'
+        });
+
+        // Force update page
+        self.$forceUpdate()
+    },
     methods: {
         sendSmsCode () {
             uni.showToast({

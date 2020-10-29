@@ -28,9 +28,14 @@ export default {
         }
     },
     onShow () {
+        const self = this
+
         uni.setNavigationBarTitle({
             title: '用户登录'
         });
+
+        // Force update page
+        self.$forceUpdate()
     },
     methods: {
         mobLogin () {

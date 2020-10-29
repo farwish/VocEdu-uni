@@ -2,15 +2,15 @@
 	<view>
         <button size="mini" class="tabBtn" :disabled="true">题卡</button>
 
+        <template v-if="openStatus == 0">
+            <button size="mini" class="tabBtn" type="primary" @click="categoryBuy()">开通科目</button>
+        </template>
+
         <uni-grid :column="8" @change="gridClicked" class="gridCustom">
             <uni-grid-item v-for="(item, idx) in questionList" :index="item.id" :class="item.done ? 'questionDone' : ''">
                 <text class="text">{{ idx + 1 }}</text>
             </uni-grid-item>
         </uni-grid>
-
-        <template v-if="openStatus == 0">
-            <button size="mini" class="tabBtn" type="primary" @click="categoryBuy()">开通科目</button>
-        </template>
 	</view>
 </template>
 
