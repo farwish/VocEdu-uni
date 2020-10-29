@@ -1,7 +1,7 @@
 <template>
 	<view>
         <uni-list>
-            <uni-list-item :showArrow="false" title="" :note="categoryNotice"></uni-list-item>
+            <uni-list-item :showArrow="false" title="" :note="noticeBarText"></uni-list-item>
         </uni-list>
 
         <uni-list>
@@ -23,7 +23,8 @@ export default {
         return {
             categoryId: '',
             categoryName: '',
-            categoryNotice: '',
+            chapterName: '',
+            questionSerialNumber: 0,
 
             chapterList: []
         }
@@ -31,15 +32,8 @@ export default {
     async onShow () {
         const self = this
 
-        // Init query string, categoryId, categoryName, categoryNotice
-        self.categoryId = this.$route.query.cid
-
-        self.categoryName = this.$route.query.name
-        uni.setNavigationBarTitle({
-            title: self.categoryName
-        });
-
-        self.categoryNotice = this.$route.query.notice
+        // get record for notice info
+        await self.getPractiseRecord()
 
         // Then load chapter
         self.loadChapter(0, null)
@@ -48,6 +42,39 @@ export default {
         self.$forceUpdate()
     },
     methods: {
+        // Same in index.vue
+        async getPractiseRecord () {
+            const self = this
+
+            const res = await self.$apiRequest({
+                url: self.$apiList.practiseRecord,
+                method: 'GET',
+                header: {
+                    Authorization: 'Bearer ' + self.$store.state.member.memberToken
+                }
+            })
+
+            if (res.code == 0) {
+                if (res.data.length == 0) {
+                    // goto chose subject
+                    uni.navigateTo({
+                        url: './chose-subject'
+                    })
+                } else {
+                    uni.setNavigationBarTitle({
+                        title: res.data.categoryName
+                    });
+
+                    // For chose-chapter page
+                    self.categoryId = res.data.categoryId
+                    self.categoryName = res.data.categoryName
+
+                    // For notise bar
+                    self.chapterName = res.data.chapterName
+                    self.questionSerialNumber = res.data.questionSerialNumber
+                }
+            }
+        },
         async loadChapter (pid, chapterName) {
             const self = this
 
@@ -83,6 +110,11 @@ export default {
                 }
             }
 
+        }
+    },
+    computed: {
+        noticeBarText () {
+            return '当前做到《' + this.chapterName + '》第 ' + this.questionSerialNumber + ' 题'
         }
     }
 }

@@ -91,7 +91,6 @@ export default {
         bindTextAreaBlur (e) {
             const self = this
             self.note = e.detail.value
-            console.log(self.note)
         }
     }
 }

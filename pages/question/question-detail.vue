@@ -8,20 +8,32 @@
             <uni-list-item :showArrow="false" :title="questionDetail.title"></uni-list-item>
 
             <!-- 单选，判断 -->
-            <radio-group v-if="questionDetail.pattern_classify == 1 || questionDetail.pattern_classify == 4" @change="answerChange">
+            <radio-group v-if="questionDetail.pattern_classify == 1 || questionDetail.pattern_classify == 4" @change="radioAnswerChange">
                 <label v-for="(item, key) in questionDetail.option_answer" :key="key">
                     <view class="radioLabelPd">
-                        <radio :checked="key == myAnswer" :value="key" />{{ key }}. {{ item }}
+                        <radio :value="key" :checked="myAnswer == key" />{{ key }}、{{ item }}
                     </view>
                 </label>
             </radio-group>
 
+            <!-- 多选 -->
+            <checkbox-group v-if="questionDetail.pattern_classify == 2" @change="checkboxAnswerChange">
+                <label v-for="(item, key) in questionDetail.option_answer" :key="key">
+                    <view class="checkboxLabelPd">
+                        <checkbox :value="key" :checked="myAnswer.indexOf(key) != -1" />{{ key }}、{{ item }}
+                    </view>
+                </label>
+            </checkbox-group>
+
             <!-- 填空 -->
-            <input v-if="questionDetail.pattern_classify == 5" @input="myAnswerInput" :value="myAnswer" class="answerInput" focus placeholder="输入答案" />
+            <input v-if="questionDetail.pattern_classify == 5" @input="inputAnswerChange" :value="myAnswer" class="answerInput" focus placeholder="输入回答" />
+
+            <!-- 简答(主观题) -->
+            <textarea v-if="questionDetail.pattern_type == 0" @blur="textareaAnswerChange" :value="myAnswer" focus placeholder="输入回答" />
         </uni-list>
 
         <uni-list class="listCustom" v-if="questionDetail">
-            <uni-list-item :showArrow="false" title="我的答案" :note="myAnswer"></uni-list-item>
+            <uni-list-item :showArrow="false" title="我的答案" :note="myAnswerShown"></uni-list-item>
             <uni-list-item :showArrow="false" title="正确答案" :note="questionDetail.right_answer"></uni-list-item>
             <uni-list-item :showArrow="false" title="难度" :note="questionDetail.difficulty"></uni-list-item>
         </uni-list>
@@ -41,7 +53,7 @@ export default {
     },
     data() {
         return {
-            myAnswer: ' - ',
+            myAnswer: '',
             questionDetail: null
         }
     },
@@ -69,36 +81,11 @@ export default {
 
             if (questionDetailRes.code == 0 && questionDetailRes.data) {
                 self.questionDetail = questionDetailRes.data.questionDetail
-                self.myAnswer = questionDetailRes.data.recordReplyAnswer
-            }
-        },
-        async answerChange (e) {
-            const self = this
-
-            self.myAnswer = e.detail.value
-
-            const practiseRecordRes = self.saveRecord(self.myAnswer)
-
-            console.log(practiseRecordRes)
-        },
-        async saveRecord (value) {
-            const self = this
-
-            const cid = self.$route.query.cid
-            const qid = self.$route.query.qid
-
-            return await self.$apiRequest({
-                url: self.$apiList.practiseRecord,
-                method: 'POST',
-                header: {
-                    Authorization: 'Bearer ' + self.$store.state.member.memberToken
-                },
-                data: {
-                    cid: cid,
-                    qid: qid,
-                    reply_answer: value
+                let recordReplyAnswer = questionDetailRes.data.recordReplyAnswer
+                if (recordReplyAnswer != '') {
+                    self.myAnswer = questionDetailRes.data.recordReplyAnswer
                 }
-            })
+            }
         },
         gotoAnswerSheet () {
             const self = this
@@ -120,12 +107,59 @@ export default {
                 url: '/pages/question/question-note?qid=' + qid + '&cid=' + cid + '&name=' + name
             })
         },
-        async myAnswerInput (event) {
+        async radioAnswerChange (e) {
             const self = this
 
-            self.myAnswer = event.target.value
+            self.myAnswer = e.detail.value
+
+            const practiseRecordRes = self.saveRecord(self.myAnswer)
+        },
+        async checkboxAnswerChange (e) {
+            const self = this
+
+            self.myAnswer = e.detail.value.join('')
 
             const practiseRecordRes = await self.saveRecord(self.myAnswer)
+        },
+        async inputAnswerChange (e) {
+            const self = this
+
+            self.myAnswer = e.target.value
+
+            const practiseRecordRes = await self.saveRecord(self.myAnswer)
+        },
+        async textareaAnswerChange (e) {
+            const self = this
+
+            self.myAnswer = e.detail.value
+
+            const practiseRecordRes = await self.saveRecord(self.myAnswer)
+        },
+        async saveRecord (value) {
+            const self = this
+
+            const cid = self.$route.query.cid
+            const qid = self.$route.query.qid
+
+            return await self.$apiRequest({
+                url: self.$apiList.practiseRecord,
+                method: 'POST',
+                header: {
+                    Authorization: 'Bearer ' + self.$store.state.member.memberToken
+                },
+                data: {
+                    cid: cid,
+                    qid: qid,
+                    reply_answer: value
+                }
+            })
+        }
+    },
+    computed: {
+        myAnswerShown () {
+            const self = this
+
+            return self.myAnswer != '' ? self.myAnswer : '-'
         }
     }
 }
@@ -142,11 +176,19 @@ export default {
     margin: 0 20rpx 20rpx 20rpx;
 }
 
-.radioLabelPd {
-    padding: 15rpx 30rpx;
+.radioLabelPd, .checkboxLabelPd {
+    padding: 0 30rpx 30rpx 30rpx;
 }
 
 .answerInput {
     padding: 0 0 20rpx 32rpx;
+}
+
+textarea {
+    border: 1px solid #DDDDDD;
+    border-radius: 12rpx;
+    margin: 0 20rpx 20rpx 20rpx;
+    padding: 15rpx;
+    height: 300rpx;
 }
 </style>

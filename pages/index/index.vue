@@ -70,6 +70,7 @@ export default {
         })
     },
     methods: {
+        // Same in chose-chapter.vue
         async getPractiseRecord () {
             const self = this
 
@@ -122,7 +123,7 @@ export default {
         choseChapter (categoryId) {
             const self = this
             uni.navigateTo({
-                url: '/pages/index/chose-chapter?cid=' + self.categoryId + '&name=' + self.categoryName + '&notice=' + self.noticeBarText
+                url: '/pages/index/chose-chapter?cid=' + self.categoryId + '&name=' + self.categoryName
             })
         }
     },
