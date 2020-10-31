@@ -1,13 +1,20 @@
 <template>
 	<view class="container">
-        <view @click="mobLogout">
-            [退出登录]
-        </view>
+        <uni-list class="listCustom">
+            <uni-list-item :showArrow="true" title="已开通科目" @click="gotoOpenedSubject()"></uni-list-item>
+        </uni-list>
+
+        <button type="primary" class="primary customLogoutBtn" @tap="mobLogout">退出登录</button>
 	</view>
 </template>
 
 <script>
+import uList from "@/components/uni-list/uni-list.vue"
+import uListItem from "@/components/uni-list-item/uni-list-item.vue"
 export default {
+    components: {
+        uList, uListItem
+    },
     data() {
         return {
 
@@ -24,6 +31,11 @@ export default {
         self.$forceUpdate()
     },
     methods: {
+        gotoOpenedSubject () {
+            uni.navigateTo({
+                url: '/pages/home/opened-subject'
+            })
+        },
         mobLogout () {
             const self = this
 
@@ -42,9 +54,6 @@ export default {
                             uni.redirectTo({
                                 url: '/pages/account/signin'
                             })
-                            // uni.switchTab({
-                            //     url: '/pages/index/index'
-                            // })
                         }, 1500)
                     }
                 })
@@ -54,5 +63,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.customLogoutBtn {
+    margin: 25rpx;
+}
 </style>

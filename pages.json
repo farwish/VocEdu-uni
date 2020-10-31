@@ -81,7 +81,15 @@
                 "navigationBarTitleText": "笔记",
                 "enablePullDownRefresh": false
             }
-            
+
+        }
+        ,{
+            "path" : "pages/home/opened-subject",
+            "style" : {
+                "navigationBarTitleText": "已开通科目",
+                "enablePullDownRefresh": false
+            }
+
         }
     ],
 	"globalStyle": {

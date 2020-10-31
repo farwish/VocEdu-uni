@@ -1,22 +1,22 @@
 <template>
-		<view class="content">
-			<view class="input-group">
-				<view class="input-row">
-					<text class="title">手机号：</text>
-                    <input class="uni-input" v-model="mobile" />
-				</view>
-				<view class="input-row">
-					<text class="title">密码：</text>
-                    <input class="uni-input" v-model="password" />
-				</view>
-			</view>
-			<view class="btn-row">
-				<button type="primary" class="primary" @tap="mobLogin">登录</button>
-			</view>
-			<view class="action-row">
-				<navigator url="./signup">注册账号</navigator>
-			</view>
-		</view>
+    <view class="content">
+        <view class="input-group">
+            <view class="input-row">
+                <text class="title">手机号：</text>
+                <input class="uni-input" v-model="mobile" />
+            </view>
+            <view class="input-row">
+                <text class="title">密码：</text>
+                <input class="uni-input" v-model="password" />
+            </view>
+        </view>
+        <view>
+            <button type="primary" class="primary" @tap="mobLogin">登录</button>
+        </view>
+        <view>
+            <navigator url="./signup">注册账号</navigator>
+        </view>
+    </view>
 </template>
 
 <script>
