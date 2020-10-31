@@ -106,12 +106,12 @@
 				"iconPath": "static/icon/index.png",
 				"selectedIconPath": "static/icon/index-active.png"
 			},
-			{
-				"text": "课程",
-				"pagePath": "pages/video/video",
-				"iconPath": "static/icon/video.png",
-				"selectedIconPath": "static/icon/video-active.png"
-			},
+			// {
+			// 	"text": "课程",
+			// 	"pagePath": "pages/video/video",
+			// 	"iconPath": "static/icon/video.png",
+			// 	"selectedIconPath": "static/icon/video-active.png"
+			// },
 			{
 				"text": "我的",
 				"pagePath": "pages/home/home",
