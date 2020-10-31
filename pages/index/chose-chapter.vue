@@ -1,10 +1,10 @@
 <template>
 	<view>
-        <uni-list>
+        <uni-list v-if="chapterName">
             <uni-list-item :showArrow="false" title="" :note="noticeBarText"></uni-list-item>
         </uni-list>
 
-        <uni-list>
+        <uni-list v-if="chapterList">
             <template v-for="item in chapterList">
                 <uni-list-item :key="item.id" :title="item.name" @click="loadChapter(item.id, item.name)"></uni-list-item>
             </template>

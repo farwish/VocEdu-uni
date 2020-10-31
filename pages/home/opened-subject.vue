@@ -3,7 +3,8 @@
         <uni-list class="listCustom" v-for="item in categories">
             <uni-list-item :showArrow="false" :title="item.name" :rightText="item.pivot.expired_at" @click="saveChosenCategory(item.category_id)"></uni-list-item>
         </uni-list>
-        <uni-list class="listCustom" v-if="categories.length == 0">
+
+        <uni-list class="listCustom" v-if="noCategoryOpen">
             <uni-list-item :showArrow="false" title="您当前没有已开通的科目。"></uni-list-item>
         </uni-list>
 	</view>
@@ -18,13 +19,18 @@ export default {
     },
     data() {
         return {
-            categories: []
+            categories: [],
+            noCategoryOpen: false
         }
     },
     async onShow () {
         const self = this
 
-        self.openedCategories()
+        await self.openedCategories()
+
+        if (self.categories.length == 0) {
+            self.noCategoryOpen = true
+        }
     },
     methods: {
         async openedCategories () {

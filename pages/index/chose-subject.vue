@@ -1,6 +1,6 @@
 <template>
 	<view>
-        <uni-grid :column="3" @change="gridClicked">
+        <uni-grid v-if="categoryList" :column="3" @change="gridClicked">
             <uni-grid-item v-for="item in categoryList" :index="item.id">
                 <text class="text">{{ item.name }}</text>
             </uni-grid-item>

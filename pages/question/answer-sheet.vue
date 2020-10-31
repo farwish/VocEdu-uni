@@ -22,7 +22,7 @@ export default {
     data() {
         return {
             questionList: null,
-            openStatus: 0,
+            openStatus: 1,
         }
     },
     async onShow () {
@@ -76,7 +76,7 @@ export default {
             const cid = self.$route.query.cid
 
             const res = await self.$apiRequest({
-                url: self.$apiList.categoryBuy,
+                url: self.$apiList.categoryOpen,
                 method: 'POST',
                 header: {
                     Authorization: 'Bearer ' + self.$store.state.member.memberToken

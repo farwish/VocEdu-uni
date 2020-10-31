@@ -1,6 +1,6 @@
 <template>
 	<view>
-        <uni-list>
+        <uni-list v-if="currentSubjectInfo.categoryName">
             <!-- <uni-list-item rightText="切换科目" :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'location'}" :title="currentSubjectInfo.categoryName" @click="gotoChoseSubject()"></uni-list-item> -->
             <uni-list-item rightText="切换科目" :title="currentSubjectInfo.categoryName" @click="gotoChoseSubject()"></uni-list-item>
             <uni-list-item :showArrow="false" title="科目题量" :rightText="currentSubjectInfo.questionsCount" note=""></uni-list-item>
