@@ -108,6 +108,7 @@ textarea {
     margin: 0 20rpx 20rpx 20rpx;
     padding: 15rpx;
     height: 300rpx;
+    background-color: #FFFFFF;
 }
 
 .saveBtn {

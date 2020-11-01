@@ -1,7 +1,10 @@
 <template>
 	<view class="container">
         <uni-list class="listCustom">
-            <uni-list-item :showArrow="true" title="已开通科目" @click="gotoOpenedSubject()"></uni-list-item>
+            <uni-list-item :showArrow="true" title="我的题库" @click="gotoOpenedSubject()"></uni-list-item>
+        </uni-list>
+        <uni-list class="listCustom">
+            <uni-list-item :showArrow="true" title="切换科目" @click="gotoChoseSubject()"></uni-list-item>
         </uni-list>
 
         <button type="primary" class="primary customLogoutBtn" @tap="mobLogout">退出登录</button>
@@ -34,6 +37,11 @@ export default {
         gotoOpenedSubject () {
             uni.navigateTo({
                 url: '/pages/home/opened-subject'
+            })
+        },
+        gotoChoseSubject () {
+            uni.navigateTo({
+                url: '/pages/index/chose-subject'
             })
         },
         mobLogout () {

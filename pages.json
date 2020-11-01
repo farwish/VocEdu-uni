@@ -28,6 +28,23 @@
 				"navigationBarTitleText": "选择科目"
 			}
 		}
+        ,{
+            "path" : "pages/index/chose-chapter",
+            "style" : {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+
+        }
+        ,{
+            "path" : "pages/index/open-subject",
+            "style" :
+            {
+                "navigationBarTitleText": "充值购买",
+                "enablePullDownRefresh": false
+            }
+
+        }
 		,{
 			"path" : "pages/video/video",
 			"style" : {
@@ -41,6 +58,14 @@
 			}
 		}
         ,{
+            "path" : "pages/home/opened-subject",
+            "style" : {
+                "navigationBarTitleText": "已开通科目",
+                "enablePullDownRefresh": false
+            }
+
+        }
+        ,{
             "path" : "pages/account/signin",
             "style" : {
               "navigationBarTitleText": "用户登录"
@@ -51,14 +76,6 @@
             "style" : {
                 "navigationBarTitleText": "用户注册"
             }
-        }
-        ,{
-            "path" : "pages/index/chose-chapter",
-            "style" : {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-
         }
         ,{
             "path" : "pages/question/answer-sheet",
@@ -79,14 +96,6 @@
             "path" : "pages/question/question-note",
             "style" : {
                 "navigationBarTitleText": "笔记",
-                "enablePullDownRefresh": false
-            }
-
-        }
-        ,{
-            "path" : "pages/home/opened-subject",
-            "style" : {
-                "navigationBarTitleText": "已开通科目",
                 "enablePullDownRefresh": false
             }
 

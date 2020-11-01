@@ -61,6 +61,9 @@ export default {
 }
 /* #endif */
 
+body {
+    background-color: #F1F5F8;
+}
 
 button.primary {
     background-color: #0faeff;

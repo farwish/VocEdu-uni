@@ -1,10 +1,7 @@
 <template>
 	<view>
         <button size="mini" class="tabBtn" :disabled="true">题卡</button>
-
-        <template v-if="openStatus == 0">
-            <button size="mini" class="tabBtn" type="primary" @click="categoryBuy()">开通科目</button>
-        </template>
+        <button v-if="openStatus == 0" size="mini" class="tabBtn" type="primary" @click="categoryOpen()">开通科目</button>
 
         <uni-grid :column="8" @change="gridClicked" class="gridCustom">
             <uni-grid-item v-for="(item, idx) in questionList" :index="item.id" :class="item.done ? 'questionDone' : ''">
@@ -71,32 +68,15 @@ export default {
                 url: '/pages/question/question-detail?qid=' + questionId + '&cid=' + cid + '&name=' + name
             })
         },
-        async categoryBuy () {
+        async categoryOpen () {
             const self = this
+
             const cid = self.$route.query.cid
+            const name = self.$route.query.name
 
-            const res = await self.$apiRequest({
-                url: self.$apiList.categoryOpen,
-                method: 'POST',
-                header: {
-                    Authorization: 'Bearer ' + self.$store.state.member.memberToken
-                },
-                data: {
-                    cid: cid,
-                }
+            uni.navigateTo({
+                url: '/pages/index/open-subject?cid=' + cid + '&name=' + name
             })
-
-            if (res.code == 0) {
-                uni.showToast({
-                    title: '开通成功',
-                    icon: 'none'
-                })
-                setTimeout(function () {
-                    uni.redirectTo({
-                        url: '/pages/question/answer-sheet?cid=' + cid + '&name=' + self.$route.query.name
-                    })
-                }, 1000)
-            }
         }
     }
 }
