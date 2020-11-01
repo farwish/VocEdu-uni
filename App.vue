@@ -68,4 +68,8 @@ body {
 button.primary {
     background-color: #0faeff;
 }
+
+button.warn {
+    background-color: #FFA200;
+}
 </style>

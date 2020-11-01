@@ -12,7 +12,7 @@
             </uni-grid-item> -->
         </uni-grid>
 
-        <uni-notice-bar :single="true" :showIcon="true" :scrollable="true" :speed=70 :text="noticeBarText"></uni-notice-bar>
+        <uni-notice-bar :single="true" :showIcon="true" :scrollable="true" :speed=60 :text="noticeBarText"></uni-notice-bar>
 
         <uni-card
             :is-full="true"

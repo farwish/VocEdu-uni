@@ -79,12 +79,6 @@ export default {
         async loadCategory (pid) {
             const self = this
 
-            if (pid == 0) {
-                self.showUniListFormat = false
-            } else {
-                self.showUniListFormat = true
-            }
-
             const res = await self.$apiRequest({
                 url: self.$apiList.categoryIndex,
                 method: 'GET',
@@ -102,6 +96,12 @@ export default {
                 } else {
                     self.categoryList = res.data
                 }
+            }
+
+            if (pid == 0) {
+                self.showUniListFormat = false
+            } else {
+                self.showUniListFormat = true
             }
         },
         async saveChosenCategory (categoryId) {
