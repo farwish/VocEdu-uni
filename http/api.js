@@ -12,8 +12,9 @@ export const apiList = {
     practiseCurrentSubject: apiPrefix + '/practise/current-subject',
 
     categoryIndex: apiPrefix + '/category/index',
-    categoryOpen: apiPrefix + '/category/open',
     categoryOpened: apiPrefix + '/category/opened',
+    categoryOpen: apiPrefix + '/category/open',
+    categorySearchLast: apiPrefix + '/category/search',
 
     chapterIndex: apiPrefix + '/chapter/index',
 

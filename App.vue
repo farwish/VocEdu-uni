@@ -19,7 +19,7 @@ export default {
             // Request to check
             self.$apiRequest({
                 url: self.$apiList.accountInfo,
-                method: 'POST',
+                method: 'GET',
                 header: {
                     Authorization: `Bearer ${memberToken}`
                 }

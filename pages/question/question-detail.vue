@@ -70,7 +70,7 @@ export default {
 
             const questionDetailRes = await self.$apiRequest({
                 url: self.$apiList.questionDetail,
-                method: 'POST',
+                method: 'GET',
                 header: {
                     Authorization: 'Bearer ' + self.$store.state.member.memberToken
                 },

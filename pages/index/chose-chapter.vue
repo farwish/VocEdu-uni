@@ -86,7 +86,7 @@ export default {
 
             const chapterRes = await self.$apiRequest({
                 url: self.$apiList.chapterIndex,
-                method: 'POST',
+                method: 'GET',
                 header: {
                     Authorization: 'Bearer ' + self.$store.state.member.memberToken
                 },

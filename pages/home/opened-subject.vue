@@ -38,7 +38,7 @@ export default {
 
             const openedCategoryRes = await self.$apiRequest({
                 url: self.$apiList.categoryOpened,
-                method: 'POST',
+                method: 'GET',
                 header: {
                     Authorization: 'Bearer ' + self.$store.state.member.memberToken
                 }
