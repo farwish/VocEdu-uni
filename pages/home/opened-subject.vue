@@ -1,7 +1,7 @@
 <template>
 	<view>
         <uni-list class="listCustom" v-for="item in categories">
-            <uni-list-item :showArrow="false" :title="item.name" :rightText="item.pivot.expired_at" @click="saveChosenCategory(item.category_id)"></uni-list-item>
+            <uni-list-item :showArrow="false" :title="item.name" :rightText="item.expiredAt" @click="saveChosenCategory(item.categoryId)"></uni-list-item>
         </uni-list>
 
         <uni-list class="listCustom" v-if="noCategoryOpen">

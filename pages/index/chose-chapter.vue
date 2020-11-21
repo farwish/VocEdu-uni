@@ -105,7 +105,7 @@ export default {
                     const chapterId = pid
 
                     uni.navigateTo({
-                        url: '/pages/question/answer-sheet?cid=' + chapterId + '&name=' + chapterName
+                        url: '/pages/question/answer-sheet?pid=' + chapterId + '&name=' + chapterName
                     })
                 }
             }

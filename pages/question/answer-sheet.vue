@@ -25,7 +25,7 @@ export default {
     async onShow () {
         const self = this
 
-        const cid = self.$route.query.cid
+        const pid = self.$route.query.pid
         const name = self.$route.query.name
 
         uni.setNavigationBarTitle({
@@ -39,7 +39,7 @@ export default {
                 Authorization: 'Bearer ' + self.$store.state.member.memberToken
             },
             data: {
-                cid: cid,
+                pid: pid,
             }
         })
 
@@ -61,11 +61,11 @@ export default {
         gotoQuestionDetail (questionId) {
             const self = this
 
-            const cid = self.$route.query.cid
+            const pid = self.$route.query.pid
             const name = self.$route.query.name
 
             uni.redirectTo({
-                url: '/pages/question/question-detail?qid=' + questionId + '&cid=' + cid + '&name=' + name
+                url: '/pages/question/question-detail?qid=' + questionId + '&pid=' + pid + '&name=' + name
             })
         },
         async categoryOpen () {

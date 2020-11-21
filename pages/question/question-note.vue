@@ -49,11 +49,11 @@ export default {
         gotoAnswerSheet () {
             const self = this
 
-            const cid = self.$route.query.cid
+            const pid = self.$route.query.pid
             const name = self.$route.query.name
 
             uni.redirectTo({
-                url: '/pages/question/answer-sheet?cid=' + cid + '&name=' + name
+                url: '/pages/question/answer-sheet?pid=' + pid + '&name=' + name
             })
         },
         questionNoteSave () {

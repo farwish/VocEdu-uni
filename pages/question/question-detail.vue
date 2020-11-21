@@ -8,8 +8,8 @@
             <uni-list-item :showArrow="false" :title="questionDetail.title"></uni-list-item>
 
             <!-- 单选，判断 -->
-            <radio-group v-if="questionDetail.pattern_classify == 1 || questionDetail.pattern_classify == 4" @change="radioAnswerChange">
-                <label v-for="(item, key) in questionDetail.option_answer" :key="key">
+            <radio-group v-if="questionDetail.patternClassify == 1 || questionDetail.patternClassify == 4" @change="radioAnswerChange">
+                <label v-for="(item, key) in questionDetail.optionAnswer" :key="key">
                     <view class="radioLabelPd">
                         <radio :value="key" :checked="myAnswer == key" />{{ key }}、{{ item }}
                     </view>
@@ -17,8 +17,8 @@
             </radio-group>
 
             <!-- 多选 -->
-            <checkbox-group v-if="questionDetail.pattern_classify == 2" @change="checkboxAnswerChange">
-                <label v-for="(item, key) in questionDetail.option_answer" :key="key">
+            <checkbox-group v-if="questionDetail.patternClassify == 2" @change="checkboxAnswerChange">
+                <label v-for="(item, key) in questionDetail.optionAnswer" :key="key">
                     <view class="checkboxLabelPd">
                         <checkbox :value="key" :checked="myAnswer.indexOf(key) != -1" />{{ key }}、{{ item }}
                     </view>
@@ -26,15 +26,15 @@
             </checkbox-group>
 
             <!-- 填空 -->
-            <input v-if="questionDetail.pattern_classify == 5" @input="inputAnswerChange" :value="myAnswer" class="answerInput" focus placeholder="输入回答" />
+            <input v-if="questionDetail.patternClassify == 5" @input="inputAnswerChange" :value="myAnswer" class="answerInput" focus placeholder="输入回答" />
 
             <!-- 简答(主观题) -->
-            <textarea v-if="questionDetail.pattern_type == 0" @blur="textareaAnswerChange" :value="myAnswer" focus placeholder="输入回答" />
+            <textarea v-if="questionDetail.patternType == 0" @blur="textareaAnswerChange" :value="myAnswer" focus placeholder="输入回答" />
         </uni-list>
 
         <uni-list class="listCustom" v-if="questionDetail">
             <uni-list-item :showArrow="false" title="我的答案" :note="myAnswerShown"></uni-list-item>
-            <uni-list-item :showArrow="false" title="正确答案" :note="questionDetail.right_answer"></uni-list-item>
+            <uni-list-item :showArrow="false" title="正确答案" :note="questionDetail.rightAnswer"></uni-list-item>
             <uni-list-item :showArrow="false" title="难度" :note="questionDetail.difficulty"></uni-list-item>
         </uni-list>
 
@@ -90,21 +90,21 @@ export default {
         gotoAnswerSheet () {
             const self = this
 
-            const cid = self.$route.query.cid
+            const pid = self.$route.query.pid
             const name = self.$route.query.name
 
             uni.redirectTo({
-                url: '/pages/question/answer-sheet?cid=' + cid + '&name=' + name
+                url: '/pages/question/answer-sheet?pid=' + pid + '&name=' + name
             })
         },
         gotoQuestionNote (qid) {
             const self = this
 
-            const cid = self.$route.query.cid
+            const pid = self.$route.query.pid
             const name = self.$route.query.name
 
             uni.redirectTo({
-                url: '/pages/question/question-note?qid=' + qid + '&cid=' + cid + '&name=' + name
+                url: '/pages/question/question-note?qid=' + qid + '&pid=' + pid + '&name=' + name
             })
         },
         async radioAnswerChange (e) {
@@ -138,7 +138,7 @@ export default {
         async saveRecord (value) {
             const self = this
 
-            const cid = self.$route.query.cid
+            const pid = self.$route.query.pid
             const qid = self.$route.query.qid
 
             return await self.$apiRequest({
@@ -148,7 +148,7 @@ export default {
                     Authorization: 'Bearer ' + self.$store.state.member.memberToken
                 },
                 data: {
-                    cid: cid,
+                    pid: pid,
                     qid: qid,
                     reply_answer: value
                 }
