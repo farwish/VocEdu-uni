@@ -1,4 +1,4 @@
-const apiBaseUrl = (process.env.NODE_ENV === 'development') ? 'http://127.0.0.1:8000' : 'http://121.41.123.125:8889'
+const apiBaseUrl = (process.env.NODE_ENV !== 'development') ? 'http://127.0.0.1:8000' : 'http://121.41.123.125:8889'
 
 const apiPrefix = apiBaseUrl + '/api'
 
