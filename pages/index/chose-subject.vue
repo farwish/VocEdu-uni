@@ -38,11 +38,18 @@ export default {
     async onShow () {
         const self = this
         const {index} = self.options
-        if(index && cache[index-1]){
-            self.categoryList = cache[index-1]
-        }else{
-           await self.loadCategory(0)
+        if(index){
+            if(cache[index-1]){
+                self.categoryList = cache[index-1]
+            }else{
+               await self.loadCategory(0)
+            }
+        }else {
+            uni.redirectTo({
+                url: '/pages/index/chose-subject?index=1'
+            })
         }
+
     },
     onUnload(){
        const self = this
