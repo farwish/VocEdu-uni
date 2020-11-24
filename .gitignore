@@ -1,3 +1,4 @@
 unpackage/dist/*
 .DS_Store
 .idea
+.history

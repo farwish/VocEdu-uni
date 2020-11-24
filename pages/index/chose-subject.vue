@@ -44,6 +44,13 @@ export default {
            await self.loadCategory(0)
         }
     },
+    onUnload(){
+       const self = this
+       const {index} = self.options
+       if(index === '1'){
+           cache = []
+       }
+    },
     methods: {
         async searchLastCategory (e) {
             const self = this
