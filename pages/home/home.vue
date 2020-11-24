@@ -41,7 +41,7 @@ export default {
         },
         gotoChoseSubject () {
             uni.navigateTo({
-                url: '/pages/index/chose-subject'
+                url: '/pages/index/chose-subject?index=1'
             })
         },
         mobLogout () {

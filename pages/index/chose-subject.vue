@@ -22,6 +22,7 @@ import uniGridItem from "@/components/uni-grid-item/uni-grid-item.vue"
 
 import uList from "@/components/uni-list/uni-list.vue"
 import uListItem from "@/components/uni-list-item/uni-list-item.vue"
+let cache = []
 export default {
     components: {
         uniSearchBar,
@@ -36,8 +37,12 @@ export default {
     },
     async onShow () {
         const self = this
-
-        await self.loadCategory(0)
+        const {index} = self.options
+        if(index && cache[index-1]){
+            self.categoryList = cache[index-1]
+        }else{
+           await self.loadCategory(0)
+        }
     },
     methods: {
         async searchLastCategory (e) {
@@ -89,12 +94,20 @@ export default {
                     Authorization: 'Bearer ' + self.$store.state.member.memberToken
                 }
             })
-
             if (res.code == 0) {
                 if (res.data.length == 0) {
                     await self.saveChosenCategory(pid)
                 } else {
+                    let index = cache.length
+                    cache[index] = res.data
+                    index = cache.length
+                    if(index > 1){
+                        uni.navigateTo({
+                            url: '/pages/index/chose-subject?index='+ index
+                        })
+                    }
                     self.categoryList = res.data
+
                 }
             }
 

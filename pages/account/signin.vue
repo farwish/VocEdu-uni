@@ -23,8 +23,8 @@
 export default {
     data() {
         return {
-            mobile: '',
-            password: '',
+            mobile: '13185826384',
+            password: '123456',
         }
     },
     onShow () {
