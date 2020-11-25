@@ -2,11 +2,11 @@
 	<view>
         <uni-search-bar @confirm="searchLastCategory" placeholder="输入您的科目或者专业代码"></uni-search-bar>
 
-        <uni-grid :show-border="false" class="customGrid" v-if="!showUniListFormat && categoryList" :column="3" @change="gridClicked">
-            <uni-grid-item class="customGridItem" v-for="item in categoryList" :index="item.id">
+        <u-grid :col="3" :border="false" class="customGrid" v-if="!showUniListFormat && categoryList" @click="gridClicked">
+            <u-grid-item  class="customGridItem" v-for="item in categoryList" :index="item.id">
                 <text class="text">{{ item.name }}</text>
-            </uni-grid-item>
-        </uni-grid>
+            </u-grid-item>
+        </u-grid>
 
         <uni-list v-if="showUniListFormat && categoryList">
             <uni-list-item v-for="item in categoryList" :showArrow="true" :title="item.name" @click="listItemClicked(item.id)"></uni-list-item>
@@ -32,19 +32,22 @@ export default {
     data() {
         return {
             showUniListFormat: false,
-            categoryList: []
+            categoryList: [],
+            col:3
         }
     },
     async onShow () {
         const self = this
         const {index} = self.options
+
         if(index){
+            index >1 ?self.showUniListFormat = true :self.showUniListFormat = false
             if(cache[index-1]){
                 self.categoryList = cache[index-1]
             }else{
                await self.loadCategory(0)
             }
-        }else {
+        }else if(self.route === 'pages/index/chose-subject') {
             uni.redirectTo({
                 url: '/pages/index/chose-subject?index=1'
             })
@@ -59,6 +62,8 @@ export default {
        }
     },
     methods: {
+        click(){},
+        itemClick(){},
         async searchLastCategory (e) {
             const self = this
 
@@ -79,14 +84,13 @@ export default {
             })
 
             if (searchCategoryRes.code == 0) {
-                self.showUniListFormat = true
                 self.categoryList = searchCategoryRes.data
             }
         },
         async gridClicked (e) {
             const self = this
 
-            const categoryId = e.detail.index
+            const categoryId = e
 
             await self.loadCategory(categoryId)
         },
@@ -121,15 +125,9 @@ export default {
                         })
                     }
                     self.categoryList = res.data
-
                 }
             }
 
-            if (pid == 0) {
-                self.showUniListFormat = false
-            } else {
-                self.showUniListFormat = true
-            }
         },
         async saveChosenCategory (categoryId) {
             const self = this
