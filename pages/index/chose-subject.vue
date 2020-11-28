@@ -60,22 +60,33 @@
             clear() {
                 this.categoryList = cache[this.currentIndex]
                 this.searchValue = ''
-                if(this.currentIndex === 0)this.showUniListFormat = false
+                if(this.currentIndex === 0){
+                    setTimeout(()=>{
+                      this.showUniListFormat = false
+                    })
+                }
             },
             searchChange(e) {
                 this.searchValue = e
                 if (!this.searchValue) {
                     this.categoryList = cache[this.currentIndex]
-                    if(this.currentIndex === 0)this.showUniListFormat = false
+                    if(this.currentIndex === 0){
+                        setTimeout(()=>{
+                          this.showUniListFormat = false
+                        })
+                    }
                 }
             },
             async searchLastCategory(e) {
                 const self = this
                 const value = e
-                self.showUniListFormat = true
                 if (!value) {
                     this.categoryList = cache[this.currentIndex]
-                    if(this.currentIndex === 0)this.showUniListFormat = false
+                    if(this.currentIndex === 0){
+                        setTimeout(()=>{
+                          this.showUniListFormat = false
+                        },20)
+                    }
                     return
                 }
                 const searchCategoryRes = await self.$apiRequest({
@@ -90,6 +101,9 @@
 
                 if (searchCategoryRes.code == 0) {
                     self.categoryList = searchCategoryRes.data
+                    setTimeout(()=>{
+                        self.showUniListFormat = true
+                    })
                 }
             },
             async gridClicked(e) {
