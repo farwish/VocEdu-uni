@@ -19,9 +19,9 @@
             :is-shadow="true"
             note="海量题库 快速背题"
             @click="choseChapter(categoryId)"
-        > -->
+        > 
             章节练习
-        </uni-card>
+        </uni-card>-->
         <u-row gutter="16">
             <u-col span="6" v-for="(item,index) in cardList" :key="index">
                 <card @click="choseChapter(categoryId)" :index="index" :title="item.title" :subTitle="item.subTitle" :icon-name="item.icon" ></card>
