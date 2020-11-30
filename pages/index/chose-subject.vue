@@ -5,13 +5,13 @@
             :clearabled="true" @clear="clear"></u-search>
 
         <u-grid :col="3" :border="false" class="customGrid" v-if="!showUniListFormat && categoryList" @click="gridClicked">
-            <u-grid-item class="customGridItem" v-for="item in categoryList" :index="item.id">
+            <u-grid-item class="customGridItem" v-for="item in categoryList" :index="item.id" :key="item.id" >
                 <text class="text">{{ item.name }}</text>
             </u-grid-item>
         </u-grid>
 
         <u-cell-group v-if="showUniListFormat && categoryList">
-            <u-cell-item v-for="item in categoryList" :title="item.name" @click="listItemClicked(item.id)"></u-cell-item>
+            <u-cell-item v-for="item in categoryList" :title="item.name" @click="listItemClicked(item.id)" :key="item.id"></u-cell-item>
         </u-cell-group>
     </view>
 </template>
