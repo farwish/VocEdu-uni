@@ -60,7 +60,6 @@ export default {
         },
         gotoQuestionDetail (questionId) {
             const self = this
-
             const pid = self.$route.query.pid
             const name = self.$route.query.name
 
@@ -71,9 +70,10 @@ export default {
         async categoryOpen () {
             const self = this
 
-            const cid = self.$route.query.cid
-            const name = self.$route.query.name
+            const cid = self.options.pid
+            const name = self.options.name
 
+            console.log(1111333)
             uni.navigateTo({
                 url: '/pages/index/open-subject?cid=' + cid + '&name=' + name
             })

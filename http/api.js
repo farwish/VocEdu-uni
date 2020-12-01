@@ -1,6 +1,6 @@
 const apiBaseUrl = (process.env.NODE_ENV !== 'development') ? 'http://127.0.0.1:8000' : 'http://121.41.123.125:8889'
 
-const apiPrefix = apiBaseUrl + '/api'
+const apiPrefix = apiBaseUrl + '/api/v1'
 
 export const apiList = {
     accountLogin: apiPrefix + '/auth/login',
@@ -20,7 +20,8 @@ export const apiList = {
 
     questionIndex: apiPrefix + '/question/index',
     questionDetail: apiPrefix + '/question/detail',
-    questionNote: apiPrefix + '/question/note'
+    questionNote: apiPrefix + '/question/note',
+    questionPackage: apiPrefix + '/package/index',
 }
 
 const parseVueObj = (obj) => {
