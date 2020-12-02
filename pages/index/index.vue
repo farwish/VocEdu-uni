@@ -19,12 +19,12 @@
             :is-shadow="true"
             note="海量题库 快速背题"
             @click="choseChapter(categoryId)"
-        > 
+        >
             章节练习
         </uni-card>-->
         <u-row gutter="16">
             <u-col span="6" v-for="(item,index) in cardList" :key="index">
-                <card @click="choseChapter(categoryId)" :index="index" :title="item.title" :subTitle="item.subTitle" :icon-name="item.icon" ></card>
+                <card @click="choseChapter(item.id)" :index="index" :title="item.title" :subTitle="item.subTitle" :icon-name="item.icon" ></card>
             </u-col>
         </u-row>
 
@@ -85,7 +85,9 @@
                 },]
             }
         },
-        onLoad() {},
+        onLoad() {
+            this.getMenu()
+        },
         async onShow() {
             const self = this
 
@@ -150,6 +152,21 @@
                     self.wrongsCount = res.data.wrongsCount
                     self.collectsCount = res.data.collectsCount
                     self.notesCount = res.data.notesCount
+                }
+            },
+            async  getMenu(){
+                const self = this
+                const res = await self.$apiRequest({
+                    url: self.$apiList.getMenu,
+                    method: 'GET',
+                    header: {
+                        Authorization: 'Bearer ' + self.$store.state.member.memberToken
+                    }
+                })
+
+                console.log(res)
+                if(res && res.data){
+                    this.cardList = res.data
                 }
             },
             choseChapter(categoryId) {

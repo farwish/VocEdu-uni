@@ -21,7 +21,8 @@ export const apiList = {
     questionIndex: apiPrefix + '/question/index',
     questionDetail: apiPrefix + '/question/detail',
     questionNote: apiPrefix + '/question/note',
-    questionPackage: apiPrefix + '/package/index',
+    getPackage: apiPrefix + '/package/index',
+    getMenu: apiPrefix + '/menu/index',
 }
 
 const parseVueObj = (obj) => {

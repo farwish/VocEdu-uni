@@ -72,7 +72,7 @@
                 const cid = self.$route.query.cid
 
                 const res = await self.$apiRequest({
-                    url: self.$apiList.questionPackage,
+                    url: self.$apiList.getPackage,
                     method: 'POST',
                     header: {
                         Authorization: 'Bearer ' + self.$store.state.member.memberToken
