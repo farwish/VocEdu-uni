@@ -63,7 +63,7 @@ export default {
             const pid = self.$route.query.pid
             const name = self.$route.query.name
 
-            uni.redirectTo({
+            uni.navigateTo({
                 url: '/pages/question/question-detail?qid=' + questionId + '&pid=' + pid + '&name=' + name
             })
         },
