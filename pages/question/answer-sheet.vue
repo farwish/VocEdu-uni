@@ -44,6 +44,7 @@ export default {
         })
 
         if (questionRes.code == 0 && questionRes.data) {
+            uni.setStorageSync('questionList',JSON.stringify(questionRes.data.questionList))
             self.questionList = questionRes.data.questionList
             self.openStatus = questionRes.data.openStatus
         }
