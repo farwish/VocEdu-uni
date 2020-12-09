@@ -5,9 +5,7 @@
             <uni-list-item :showArrow="false" title="题库" note="实际使用366天" rightText="￥198"></uni-list-item>
         </uni-list> -->
 
-
-        <!-- <button type="primary" class="primary customBuyBtn" @tap="buy">购买</button> -->
-        <u-card v-for="(item,index) in list" :key="index" :title="item.name" :body-style="{paddingTop:'6rpx'}" :head-border-bottom="false">
+        <u-card :full="false" margin="20rpx" v-for="(item,index) in list" :key="index" :title="item.name" :head-border-bottom="false">
             <view class="" slot="body">
                 <u-row gutter="16" >
                     <u-col span="12">
@@ -23,7 +21,6 @@
                       <u-tag :text="_item" type="primary" />
                     </u-col>
                 </u-row>
-
             </view>
             <view class="" slot="foot">
                 <u-row gutter="16" >
@@ -48,18 +45,8 @@
         components: {},
         data() {
             return {
-                categoryName: 'xxxxx',
-                list: [{
-                    "id": 0,
-                    "name": "套餐一",
-                    "explain": "套餐 套餐 套餐string2222",
-                    "price": 10,
-                    "oriPrice": 10,
-                    "expireDate": "string",
-                    "serviceContent": [
-                        "string1", "string2"
-                    ]
-                },],
+                categoryName: '',
+                list: [],
             }
         },
         onShow() {
@@ -81,8 +68,7 @@
                         cid: cid,
                     }
                 })
-                console.log(res, 1111222)
-                if(res && res.data){
+                if (res && res.data) {
                   self.list = res.data
                 }
             },
@@ -108,8 +94,7 @@
                     })
                     setTimeout(function() {
                         uni.redirectTo({
-                            url: '/pages/question/answer-sheet?cid=' + cid + '&name=' + self.$route
-                                .query.name
+                            url: '/pages/question/answer-sheet?cid=' + cid + '&name=' + self.$route.query.name
                         })
                     }, 1000)
                 }
@@ -119,13 +104,6 @@
 </script>
 
 <style scoped>
-    .tabBtn {
-        margin: 25rpx;
-    }
-
-    .customBuyBtn {
-        margin: 25rpx;
-    }
     .content{
        padding-bottom: 16rpx;
     }

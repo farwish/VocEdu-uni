@@ -1,16 +1,17 @@
 <template>
 	<view class="container">
-        <button size="mini" class="tabBtn" @click="gotoAnswerSheet()">题卡</button>
-        <button size="mini" class="tabBtn" :disabled="true">笔记</button>
-
         <textarea @blur="bindTextAreaBlur" :value="note" />
 
         <button type="primary" size="mini" class="saveBtn" @click="questionNoteSave()">保存</button>
-	</view>
+
+        <tabbar></tabbar>
+    </view>
 </template>
 
 <script>
+import tabbar from "pages/question/components/tabbar";
 export default {
+    components: {tabbar},
     data() {
         return {
             note: ''
@@ -44,16 +45,6 @@ export default {
                 }
             }).catch((err) => {
 
-            })
-        },
-        gotoAnswerSheet () {
-            const self = this
-
-            const pid = self.$route.query.pid
-            const name = self.$route.query.name
-
-            uni.redirectTo({
-                url: '/pages/question/answer-sheet?pid=' + pid + '&name=' + name
             })
         },
         questionNoteSave () {
@@ -105,7 +96,7 @@ export default {
 textarea {
     border: 1px solid #DDDDDD;
     border-radius: 12rpx;
-    margin: 0 20rpx 20rpx 20rpx;
+    margin: 20rpx;
     padding: 15rpx;
     height: 300rpx;
     background-color: #FFFFFF;

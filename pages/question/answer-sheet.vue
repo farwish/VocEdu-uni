@@ -1,6 +1,5 @@
 <template>
 	<view>
-        <button size="mini" class="tabBtn" :disabled="true">题卡</button>
         <button v-if="openStatus == 0" size="mini" class="tabBtn" type="primary" @click="categoryOpen()">开通科目</button>
 
         <uni-grid :column="8" @change="gridClicked" class="gridCustom">
@@ -8,14 +7,17 @@
                 <text class="text">{{ idx + 1 }}</text>
             </uni-grid-item>
         </uni-grid>
+
+        <tabbar></tabbar>
 	</view>
 </template>
 
 <script>
 import uniGrid from "@/components/uni-grid/uni-grid.vue"
 import uniGridItem from "@/components/uni-grid-item/uni-grid-item.vue"
+import tabbar from "pages/question/components/tabbar";
 export default {
-    components: {uniGrid, uniGridItem},
+    components: {uniGrid, uniGridItem, tabbar},
     data() {
         return {
             questionList: null,
@@ -74,7 +76,6 @@ export default {
             const cid = self.options.pid
             const name = self.options.name
 
-            console.log(1111333)
             uni.navigateTo({
                 url: '/pages/index/open-subject?cid=' + cid + '&name=' + name
             })
@@ -95,6 +96,6 @@ export default {
 }
 
 .questionDone {
-    background-color: #4CD964;
+    background-color: #0cba43;
 }
 </style>

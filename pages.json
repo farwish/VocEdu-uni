@@ -93,7 +93,6 @@
                 "navigationBarTitleText": "题目",
                 "enablePullDownRefresh": false
             }
-
         }
         ,{
             "path" : "pages/question/question-note",

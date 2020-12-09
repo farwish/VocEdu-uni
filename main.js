@@ -11,7 +11,7 @@ Vue.prototype.$apiRequest = apiRequest
 
 App.mpType = 'app'
 // 引入全局uView
-import uView from './uview-ui/index.js';
+import uView from 'uview-ui';
 console.log(uView)
 Vue.use(uView);
 
