@@ -106,6 +106,11 @@
 
                         break;
                     case 2:
+                        // only click once
+                        if (self.$route.path == '/pages/question/answer-sheet') {
+                            return false
+                        }
+
                         queryParams = '?pid=' + pid + '&name=' + name
 
                         // dont keep history
