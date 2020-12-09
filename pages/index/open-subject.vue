@@ -60,7 +60,7 @@
 
                 const res = await self.$apiRequest({
                     url: self.$apiList.getPackage,
-                    method: 'POST',
+                    method: 'GET',
                     header: {
                         Authorization: 'Bearer ' + self.$store.state.member.memberToken
                     },
@@ -75,6 +75,7 @@
             async buy() {
                 const self = this
                 const cid = self.$route.query.cid
+                const pid = self.$route.query.pid
 
                 const res = await self.$apiRequest({
                     url: self.$apiList.categoryOpen,
@@ -94,7 +95,7 @@
                     })
                     setTimeout(function() {
                         uni.redirectTo({
-                            url: '/pages/question/answer-sheet?cid=' + cid + '&name=' + self.$route.query.name
+                            url: '/pages/question/answer-sheet?cid=' + cid + '&pid=' + pid + '&name=' + self.$route.query.name
                         })
                     }, 1000)
                 }

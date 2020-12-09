@@ -85,6 +85,12 @@
 
                 switch (index) {
                     case 0:
+                        uni.showToast({
+                            title: '建设中',
+                            icon: 'none'
+                        })
+                        return false
+
                         break;
                     case 1:
                         if (!qid || qid == 'undefined') {
@@ -94,10 +100,6 @@
                             })
                             return false
                         }
-
-                        // if (self.$route.path == 'pages/question/question-detail') {
-                            //
-                        // }
 
                         self.noteAreaShow = true
                         return false

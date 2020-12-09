@@ -109,6 +109,9 @@
                         url: "/pages/index/index",
                     });
                 }
+
+                let cid = self.category.categoryId
+
                 const chapterRes = await self.$apiRequest({
                     url: self.$apiList.chapterIndex,
                     method: "GET",
@@ -116,7 +119,7 @@
                         Authorization: "Bearer " + self.$store.state.member.memberToken,
                     },
                     data: {
-                        cid: self.category.categoryId,
+                        cid: cid,
                         pid: pid, // chapter parent_id
                     },
                 });
@@ -137,7 +140,7 @@
                         // last chapter: pid(parent_id) as chapter_id to query questions
                         const chapterId = pid;
                         uni.navigateTo({
-                            url: "/pages/question/answer-sheet?pid=" + chapterId + "&name=" + chapterName,
+                            url: "/pages/question/answer-sheet?cid=" + cid + "&pid=" + chapterId + "&name=" + chapterName,
                         });
                     }
                 }

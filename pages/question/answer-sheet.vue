@@ -73,11 +73,12 @@ export default {
         async categoryOpen () {
             const self = this
 
-            const cid = self.options.pid
+            const cid = self.options.cid
+            const pid = self.options.pid
             const name = self.options.name
 
             uni.navigateTo({
-                url: '/pages/index/open-subject?cid=' + cid + '&name=' + name
+                url: '/pages/index/open-subject?cid=' + cid + '&pid=' + pid + '&name=' + name
             })
         }
     }
@@ -88,11 +89,11 @@ export default {
 .gridCustom {
     text-align: center;
     line-height: 80rpx;
-    margin: 0 20rpx 20rpx 20rpx;
+    margin: 20rpx;
 }
 
 .tabBtn {
-    margin: 20rpx;
+    margin: 20rpx 20rpx 0 20rpx;
 }
 
 .questionDone {
