@@ -39,14 +39,18 @@
         },
         async onShow() {
             const self = this;
-            // get record for notice info
-            // Then load chapter
-            // self.loadChapter(0, null);
-            // Force update page
-            // self.$forceUpdate();
+
+            // get record for notice info, then load chapter
             const index = self.options.index
             const cid = uni.getStorageSync('cid')
             const name = uni.getStorageSync('categoryName')
+
+            if (cid == '' || cid == undefined || ! name) {
+                uni.switchTab({
+                    url: '/pages/index/index'
+                })
+                return
+            }
 
             if (index) {
                 this.currentIndex = index - 1
@@ -57,14 +61,17 @@
                         title: category.categoryName,
                     });
                 } else {
-                    await self.getPractiseRecord();
                     await self.loadChapter(0, null);
                 }
+                await self.getPractiseRecord();
             } else  {
                 uni.redirectTo({
                     url: `/pages/index/chose-chapter?index=1`
                 })
             }
+
+            // Force update page
+            self.$forceUpdate()
         },
         onUnload() {
             const self = this
@@ -108,13 +115,11 @@
             },
             async loadChapter(pid, chapterName) {
                 const self = this;
-                if (self.category.categoryId == "" || self.category.categoryId == "undefined") {
-                    uni.navigateTo({
-                        url: "/pages/index/index",
-                    });
-                }
 
-                let cid = self.category.categoryId
+                let cid = self.category.categoryId || uni.getStorageSync('cid')
+                if (cid == '' || cid == 'undefined') {
+                    return
+                }
 
                 const chapterRes = await self.$apiRequest({
                     url: self.$apiList.chapterIndex,

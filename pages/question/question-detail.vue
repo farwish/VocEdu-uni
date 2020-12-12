@@ -84,6 +84,14 @@ export default {
         const self = this
 
         const qid = uni.getStorageSync('qid')
+        const pid = uni.getStorageSync('pid')
+
+        if (! qid || ! pid) {
+            uni.switchTab({
+                url: `/pages/index/index`
+            })
+            return
+        }
 
         // Initial swiper current idx
         self.swiperCurrent = self.questionListIds.indexOf(qid)

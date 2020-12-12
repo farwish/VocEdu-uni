@@ -23,8 +23,6 @@ export default {
         const qid = self.$route.query.qid
 
         self.questionNoteInfo(qid)
-
-        self.$forceUpdate()
     },
     methods: {
         questionNoteInfo (qid) {

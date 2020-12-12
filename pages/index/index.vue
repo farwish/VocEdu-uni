@@ -1,5 +1,17 @@
 <template>
     <view class="container">
+        <view @click='navbarTap'>
+        <u-navbar
+            :is-back="false"
+            :border-bottom="false"
+            :background="backgroundColor"
+            :title="navbarTitle"
+            title-width="320rpx"
+            title-color="white"
+        >
+        </u-navbar>
+        </view>
+
         <uni-grid :column="2" :show-border="false" :highlight="false" class="gridCustom">
             <uni-grid-item>
                 <text class="text">错题 {{ wrongsCount }}</text>
@@ -49,6 +61,11 @@
         },
         data() {
             return {
+                backgroundColor: {
+                    background: 'rgb(0, 122, 255)'
+                },
+                navbarTitle: '',
+
                 categoryId: '',
                 categoryName: '',
                 chapterName: '',
@@ -57,32 +74,7 @@
                 wrongsCount: 0,
                 collectsCount: 0,
                 notesCount: 0,
-                cardList:[{
-                  title:'章节练习',
-                  subTitle:'海量题库 快速背题',
-                  icon:'list-dot',
-                  color:''
-                },{
-                  title:'模拟考试',
-                  subTitle:'随机模拟 考试记录',
-                  icon:'man-add-fill',
-                  color:''
-                },{
-                  title:'温故知新',
-                  subTitle:'错题收藏 笔记搜题',
-                  icon:'order',
-                  color:''
-                },{
-                  title:'学习报告',
-                  subTitle:'统计分析 专属计划',
-                  icon:'file-text',
-                  color:''
-                },{
-                  title:'考试指南',
-                  subTitle:'剖析考点 抢分利器',
-                  icon:'grid',
-                  color:''
-                },]
+                cardList:[]
             }
         },
         onLoad() {
@@ -98,11 +90,13 @@
             // Force update page
             self.$forceUpdate()
         },
-        onNavigationBarButtonTap(e) {
-            uni.navigateTo({
-                url: '/pages/index/current-subject'
-            })
-        },
+
+        // Uni only, sometimes not infect
+        // onNavigationBarButtonTap(e) {
+        //     uni.navigateTo({
+        //         url: '/pages/index/current-subject'
+        //     })
+        // },
         methods: {
             // Same in chose-chapter.vue
             async getPractiseRecord() {
@@ -123,9 +117,10 @@
                             url: './chose-subject'
                         })
                     } else {
-                        uni.setNavigationBarTitle({
-                            title: res.data.categoryName
-                        });
+                        self.navbarTitle = res.data.categoryName + ' ▾'
+                        // uni.setNavigationBarTitle({
+                        //     title: res.data.categoryName
+                        // });
 
                         // For chose-chapter page
                         self.categoryId = res.data.categoryId
@@ -154,7 +149,7 @@
                     self.notesCount = res.data.notesCount
                 }
             },
-            async  getMenu(){
+            async getMenu(){
                 const self = this
                 const res = await self.$apiRequest({
                     url: self.$apiList.getMenu,
@@ -164,8 +159,7 @@
                     }
                 })
 
-                console.log(res)
-                if(res && res.data){
+                if (res && res.data) {
                     this.cardList = res.data
                 }
             },
@@ -177,7 +171,13 @@
                 uni.navigateTo({
                     url: '/pages/index/chose-chapter'
                 })
-            }
+            },
+
+            navbarTap () {
+                uni.navigateTo({
+                    url: '/pages/index/current-subject'
+                })
+            },
         },
         computed: {
             noticeBarText() {

@@ -45,7 +45,6 @@
                     url: '/pages/index/chose-subject?index=1'
                 })
             }
-
         },
         onUnload() {
             const self = this

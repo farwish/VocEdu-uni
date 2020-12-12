@@ -30,7 +30,6 @@ export default {
             title: '我的'
         });
 
-        // Force update page
         self.$forceUpdate()
     },
     methods: {

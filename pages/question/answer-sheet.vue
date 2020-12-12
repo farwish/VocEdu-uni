@@ -30,6 +30,13 @@ export default {
         const pid = uni.getStorageSync('pid')
         const name = uni.getStorageSync('chapterName')
 
+        if (! pid || ! name) {
+            uni.switchTab({
+                url: `/pages/index/index`
+            })
+            return
+        }
+
         uni.setNavigationBarTitle({
             title: name
         })
@@ -51,8 +58,6 @@ export default {
             self.questionList = questionRes.data.questionList
             self.openStatus = questionRes.data.openStatus
         }
-
-        self.$forceUpdate()
     },
     methods: {
         gridClicked (e) {
