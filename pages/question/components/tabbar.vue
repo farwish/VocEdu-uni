@@ -1,6 +1,6 @@
 <template>
     <view>
-        <u-popup mode="bottom" v-model="noteAreaShow" :mask-close-able="false" :closeable="true">
+        <u-popup mode="bottom" @open="noteAreaOpen" v-model="noteAreaShow" :mask-close-able="false" :closeable="true">
             <view class="content">
                 笔记
                 <u-input
@@ -14,56 +14,42 @@
                     type="textarea"
                     height="350"
                     negative-top="200rpx"
-                    @confirm="abc"
                 />
 
                 <u-button type="primary" size="mini" @click="questionNoteSave">保存</u-button>
             </view>
         </u-popup>
-        <!-- <u-modal v-model="noteAreaShow"
-            width="90%"
-            title="笔记"
-            :show-cancel-button="true"
-            :show-confirm-button="true"
-            confirm-text="保存"
-            cancel-text="关闭"
-        >
-            <view class="slot-content">
-            </view>
-        </u-modal> -->
+
         <u-tabbar :list="list" :before-switch="beforeSwitch" v-model="tabbarCurrent" :active-color="activeColor" />
     </view>
 </template>
 
 <script>
     export default {
-        props: {
-            note: {
-                type: String,
-                default: ''
-            }
-        },
         data() {
             return {
+                note: '',
+
                 noteAreaShow: false,
 
-                list: [{
-                    iconPath: "star",
-                    selectedIconPath: "star-fill",
-                    text: '收藏',
-                }
-                , {
-                    basePath: "/pages/question/question-note",
-                    iconPath: "edit-pen",
-                    selectedIconPath: "edit-pen-fill",
-                    text: '笔记',
-                }
-                , {
-                    basePath: "/pages/question/answer-sheet",
-                    iconPath: "grid",
-                    selectedIconPath: "grid-fill",
-                    text: '题卡',
-                }
+                list: [
+                    {
+                        basePath: "/pages/question/answer-sheet",
+                        iconPath: "grid",
+                        selectedIconPath: "grid-fill",
+                        text: '题卡',
+                    },
+                    {
+                        basePath: "/pages/question/question-note",
+                        iconPath: "edit-pen",
+                        selectedIconPath: "edit-pen-fill",
+                        text: '笔记',
+                    }
+                    // ,{
+                    //     iconPath: "star",
+                    //     selectedIconPath: "star-fill",
+                    //     text: '收藏',
+                    // }
                 // ,{
                 //     iconPath: "man-delete",
                 //     selectedIconPath: "person-delete-fill",
@@ -77,14 +63,14 @@
             beforeSwitch(index) {
                 const self = this
 
-                const pid = self.$route.query.pid
-                const name = self.$route.query.name
-                const qid = self.$route.query.qid
+                const pid = uni.getStorageSync('pid')
+                const name = uni.getStorageSync('chapterName')
+                const qid = uni.getStorageSync('qid')
 
                 let queryParams = ''
 
                 switch (index) {
-                    case 0:
+                    case 2:
                         uni.showToast({
                             title: '建设中',
                             icon: 'none'
@@ -93,7 +79,7 @@
 
                         break;
                     case 1:
-                        if (!qid || qid == 'undefined') {
+                        if (self.$route.path != '/pages/question/question-detail') {
                             uni.showToast({
                                 title: '请选题',
                                 icon: 'none'
@@ -105,27 +91,18 @@
                         return false
 
                         break;
-                    case 2:
+                    case 0:
                         // only click once
                         if (self.$route.path == '/pages/question/answer-sheet') {
                             return false
                         }
 
-                        queryParams = '?pid=' + pid + '&name=' + name
-
                         // dont keep history
                         uni.redirectTo({
-                            url: self.list[index].basePath + queryParams
+                            url: self.list[index].basePath
                         })
 
                         break;
-                    // case 3:
-                    //     uni.showToast({
-                    //         title: '请选题',
-                    //         icon: 'none'
-                    //     })
-                    //     return false
-                    //     break;
                     default:
                         break;
                 }
@@ -137,7 +114,7 @@
             questionNoteSave () {
                 const self = this
 
-                const qid = self.$route.query.qid
+                const qid = uni.getStorageSync('qid')
 
                 self.$apiRequest({
                     url: self.$apiList.questionNote,
@@ -155,7 +132,12 @@
                             title: '已保存笔记',
                             icon: 'none'
                         })
+
+                        // close popup
                         self.noteAreaShow = false
+
+                        // dynamic between component
+                        self.$store.commit('question/setCurrentQuestionNote', self.note)
                     } else {
                         uni.showToast({
                             title: '保存失败',
@@ -165,9 +147,10 @@
                 }).catch((err) => {
                 })
             },
-            bindTextAreaBlur (e) {
+            noteAreaOpen () {
+                // Popup open, dynamic assign input value for showing
                 const self = this
-                self.note = e.detail.value
+                self.note = self.$store.state.question.currentQuestionNote
             }
         },
         computed: {

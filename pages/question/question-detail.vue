@@ -1,44 +1,65 @@
 <template>
 	<view>
-        <uni-list class="listCustom" v-if="questionDetail">
-            <uni-list-item :showArrow="false" :title="questionDetail.title"></uni-list-item>
+        <swiper :style="{'height':swiperHeight+'rpx'}" :autoplay="false" :current="swiperCurrent" @change="swiperChange">
+            <swiper-item :style="{'min-height':'100%'}" v-for="(item, idx) in questionList" :key="idx">
+                <view class="swiper-item">
+                    <!-- <text :style="{'margin': '25rpx'}">{{ idx+1 }} / {{ questionList.length }}</text> -->
+                    <uni-notice-bar
+                        :style="{'margin': '20rpx', 'border-radius': '10rpx'}"
+                        single="true"
+                        background-color="#FFF"
+                        color="#3b4144"
+                        :text="'第'+(idx + 1)+'题 / 共'+questionList.length+'题'"
+                    ></uni-notice-bar>
 
-            <!-- 单选，判断 -->
-            <radio-group v-if="questionDetail.patternClassify == 1 || questionDetail.patternClassify == 4" @change="radioAnswerChange">
-                <label v-for="(item, key) in questionDetail.optionAnswer" :key="key">
-                    <view class="radioLabelPd">
-                        <radio :value="key" :checked="myAnswer == key" />{{ key }}、{{ item }}
-                    </view>
-                </label>
-            </radio-group>
+                    <uni-list class="listCustom" v-if="questionDetail && (questionDetail.id == item.id)">
+                        <uni-list-item :showArrow="false" :title="'[ ' + questionDetail.patternClassifyName + ' ] ' + questionDetail.title"></uni-list-item>
 
-            <!-- 多选 -->
-            <checkbox-group v-if="questionDetail.patternClassify == 2" @change="checkboxAnswerChange">
-                <label v-for="(item, key) in questionDetail.optionAnswer" :key="key">
-                    <view class="checkboxLabelPd">
-                        <checkbox :value="key" :checked="myAnswer.indexOf(key) != -1" />{{ key }}、{{ item }}
-                    </view>
-                </label>
-            </checkbox-group>
+                        <!-- 单选，判断 -->
+                        <radio-group v-if="questionDetail.patternClassify == 1 || questionDetail.patternClassify == 4"
+                        @change="radioAnswerChange">
+                            <label v-for="(item, key) in questionDetail.optionAnswer" :key="key">
+                                <view class="radioLabelPd">
+                                    <radio :value="key" :checked="myAnswer == key" />{{ key }}、{{ item }}
+                                </view>
+                            </label>
+                        </radio-group>
 
-            <!-- 填空 -->
-            <input v-if="questionDetail.patternClassify == 5" @input="inputAnswerChange" :value="myAnswer" class="answerInput" focus placeholder="输入回答" />
+                        <!-- 多选 -->
+                        <checkbox-group v-if="questionDetail.patternClassify == 2" @change="checkboxAnswerChange">
+                            <label v-for="(item, key) in questionDetail.optionAnswer" :key="key">
+                                <view class="checkboxLabelPd">
+                                    <checkbox :value="key" :checked="myAnswer.indexOf(key) != -1" />{{ key }}、{{ item }}
+                                </view>
+                            </label>
+                        </checkbox-group>
 
-            <!-- 简答(主观题) -->
-            <textarea v-if="questionDetail.patternType == 0" @blur="textareaAnswerChange" :value="myAnswer" focus placeholder="输入回答" />
-        </uni-list>
+                        <!-- 填空 -->
+                        <input v-if="questionDetail.patternClassify == 5" @input="inputAnswerChange" :value="myAnswer" class="answerInput" focus placeholder="输入回答" />
 
-        <uni-list class="listCustom" v-if="questionDetail">
-            <uni-list-item :showArrow="false" title="我的答案" :note="myAnswerShown"></uni-list-item>
-            <uni-list-item :showArrow="false" title="正确答案" :note="questionDetail.rightAnswer"></uni-list-item>
-            <uni-list-item :showArrow="false" title="难度" :note="questionDetail.difficulty"></uni-list-item>
-        </uni-list>
+                        <!-- 简答(主观题) -->
+                        <textarea v-if="questionDetail.patternType == 0" @blur="textareaAnswerChange" :value="myAnswer" focus placeholder="输入回答" />
+                    </uni-list>
 
-        <uni-list class="listCustom" v-if="questionDetail">
-            <uni-list-item :showArrow="false" title="解析" :note="questionDetail.analysis"></uni-list-item>
-        </uni-list>
+                    <!-- 答案 -->
+                    <uni-list class="listCustom" v-if="questionDetail && (questionDetail.id == item.id)">
+                        <uni-list-item :showArrow="false" title="我的答案" :note="myAnswerShown"></uni-list-item>
+                        <uni-list-item :showArrow="false" title="正确答案" :note="questionDetail.rightAnswer"></uni-list-item>
+                        <uni-list-item :showArrow="false" title="难度" :note="questionDetail.difficulty"></uni-list-item>
+                    </uni-list>
 
-        <tabbar :note="note"></tabbar>
+                    <!-- 解析 -->
+                    <uni-list class="listCustom" v-if="questionDetail && (questionDetail.id == item.id)">
+                        <uni-list-item :showArrow="false" title="解析" :note="questionDetail.analysis"></uni-list-item>
+                    </uni-list>
+                </view>
+            </swiper-item>
+            <!-- <swiper-item>
+                <view class="swiper-item uni-bg-green">BBBBBBBBBBBBBBBBBB</view>
+            </swiper-item> -->
+        </swiper>
+
+        <tabbar></tabbar>
 	</view>
 </template>
 
@@ -52,18 +73,25 @@ export default {
     },
     data() {
         return {
+            questionDetail: [],
             myAnswer: '',
-            questionDetail: null,
-            note: ''
+
+            swiperHeight: 1500,
+            swiperCurrent: 0
         }
     },
     async onShow () {
         const self = this
 
-        const qid = self.$route.query.qid
+        const qid = uni.getStorageSync('qid')
 
+        // Initial swiper current idx
+        self.swiperCurrent = self.questionListIds.indexOf(qid)
+
+        // Question detail async
         self.loadQuestionDetail(qid)
 
+        // Question note async
         self.questionNoteInfo(qid)
     },
     methods: {
@@ -83,14 +111,13 @@ export default {
 
             if (questionDetailRes.code == 0 && questionDetailRes.data) {
                 self.questionDetail = questionDetailRes.data.questionDetail
-                let recordReplyAnswer = questionDetailRes.data.recordReplyAnswer
-                if (recordReplyAnswer != '') {
-                    self.myAnswer = questionDetailRes.data.recordReplyAnswer
-                }
+                self.myAnswer = questionDetailRes.data.recordReplyAnswer
+
+                uni.setStorageSync('qid', qid)
             }
         },
 
-        questionNoteInfo (qid) {
+        async questionNoteInfo (qid) {
             const self = this
 
             self.$apiRequest({
@@ -104,11 +131,27 @@ export default {
                 }
             }).then((res) => {
                 if (res.code == 0) {
-                    self.note = res.data.note
+                    // dynamic share note between `tabbar` component
+                    self.$store.commit('question/setCurrentQuestionNote', res.data.note)
+                } else {
+                    // when failure
+                    self.$store.commit('question/setCurrentQuestionNote', '')
                 }
             }).catch((err) => {
-
             })
+        },
+
+        // When swiper change, loading new
+        async swiperChange (e) {
+            const self = this
+
+            let idx = e.detail.current
+            let qid = self.questionList[idx].id
+
+            uni.setStorageSync('qid', qid)
+
+            self.loadQuestionDetail(qid)
+            self.questionNoteInfo(qid)
         },
 
         async radioAnswerChange (e) {
@@ -142,8 +185,8 @@ export default {
         async saveRecord (value) {
             const self = this
 
-            const pid = self.$route.query.pid
-            const qid = self.$route.query.qid
+            const pid = uni.getStorageSync('pid')
+            const qid = uni.getStorageSync('qid')
 
             return await self.$apiRequest({
                 url: self.$apiList.practiseRecord,
@@ -164,6 +207,20 @@ export default {
             const self = this
 
             return self.myAnswer != '' ? self.myAnswer : '-'
+        },
+        questionList () {
+            return JSON.parse(uni.getStorageSync('questionList'))
+        },
+        questionListIds () {
+            const self = this
+
+            let list = self.questionList
+            let ids = []
+            for (let i = 0; i < list.length; i++) {
+                ids.push(list[i].id)
+            }
+
+            return ids
         }
     }
 }
@@ -171,8 +228,7 @@ export default {
 
 <style scoped>
 .listCustom {
-    border: 1px solid #DDDDDD;
-    border-radius: 12rpx;
+    border-radius: 10rpx;
     margin: 20rpx 20rpx 20rpx 20rpx;
 }
 

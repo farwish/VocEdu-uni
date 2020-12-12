@@ -171,8 +171,11 @@
             },
             choseChapter(categoryId) {
                 const self = this
+
+                uni.setStorageSync('cid', self.categoryId)
+                uni.setStorageSync('categoryName', self.categoryName)
                 uni.navigateTo({
-                    url: '/pages/index/chose-chapter?cid=' + self.categoryId + '&name=' + self.categoryName
+                    url: '/pages/index/chose-chapter'
                 })
             }
         },

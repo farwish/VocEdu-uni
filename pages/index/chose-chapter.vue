@@ -44,7 +44,10 @@
             // self.loadChapter(0, null);
             // Force update page
             // self.$forceUpdate();
-            const { index,cid,name } = self.options
+            const index = self.options.index
+            const cid = uni.getStorageSync('cid')
+            const name = uni.getStorageSync('categoryName')
+
             if (index) {
                 this.currentIndex = index - 1
                 if (cache[this.currentIndex]) {
@@ -59,7 +62,7 @@
                 }
             } else  {
                 uni.redirectTo({
-                    url: `/pages/index/chose-chapter?cid=${cid}&name=${name}&index=1`
+                    url: `/pages/index/chose-chapter?index=1`
                 })
             }
         },
@@ -130,17 +133,21 @@
                         cache[index] = chapterRes.data;
                         index = cache.length
                         if (index > 1) {
-                            const { cid,name } = self.options
                             uni.navigateTo({
-                                 url: `/pages/index/chose-chapter?cid=${cid}&name=${name}&index=${index}`
+                                 url: `/pages/index/chose-chapter?index=${index}`
                             })
                         }
                         self.chapterList = chapterRes.data;
                     } else {
                         // last chapter: pid(parent_id) as chapter_id to query questions
                         const chapterId = pid;
+
+                        // local store cid + pid + chapterName
+                        uni.setStorageSync('cid', cid)
+                        uni.setStorageSync('pid', chapterId)
+                        uni.setStorageSync('chapterName', chapterName)
                         uni.navigateTo({
-                            url: "/pages/question/answer-sheet?cid=" + cid + "&pid=" + chapterId + "&name=" + chapterName,
+                            url: "/pages/question/answer-sheet"
                         });
                     }
                 }

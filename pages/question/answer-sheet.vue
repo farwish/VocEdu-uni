@@ -27,12 +27,12 @@ export default {
     async onShow () {
         const self = this
 
-        const pid = self.$route.query.pid
-        const name = self.$route.query.name
+        const pid = uni.getStorageSync('pid')
+        const name = uni.getStorageSync('chapterName')
 
         uni.setNavigationBarTitle({
             title: name
-        });
+        })
 
         const questionRes = await self.$apiRequest({
             url: self.$apiList.questionIndex,
@@ -46,7 +46,8 @@ export default {
         })
 
         if (questionRes.code == 0 && questionRes.data) {
-            uni.setStorageSync('questionList',JSON.stringify(questionRes.data.questionList))
+            uni.setStorageSync('questionList', JSON.stringify(questionRes.data.questionList))
+
             self.questionList = questionRes.data.questionList
             self.openStatus = questionRes.data.openStatus
         }
@@ -63,22 +64,18 @@ export default {
         },
         gotoQuestionDetail (questionId) {
             const self = this
-            const pid = self.$route.query.pid
-            const name = self.$route.query.name
+
+            uni.setStorageSync('qid', questionId)
 
             uni.navigateTo({
-                url: '/pages/question/question-detail?qid=' + questionId + '&pid=' + pid + '&name=' + name
+                url: '/pages/question/question-detail'
             })
         },
         async categoryOpen () {
             const self = this
 
-            const cid = self.options.cid
-            const pid = self.options.pid
-            const name = self.options.name
-
             uni.navigateTo({
-                url: '/pages/index/open-subject?cid=' + cid + '&pid=' + pid + '&name=' + name
+                url: '/pages/index/open-subject'
             })
         }
     }
