@@ -23,6 +23,7 @@
 <script>
     let cache = []
     let category = null
+    let questionSerialNumber = 0 // set global for practise record only request once
     export default {
         components: {},
         data() {
@@ -32,7 +33,6 @@
                     categoryName: "",
                     chapterName: "",
                 },
-                questionSerialNumber: 0,
                 chapterList: [],
                 currentIndex: 0
             };
@@ -102,6 +102,7 @@
                         self.category = res.data
                         category = res.data
 
+                        questionSerialNumber = res.data.questionSerialNumber
                     }
                 }
             },
@@ -155,7 +156,7 @@
         },
         computed: {
             noticeBarText() {
-                return "当前做到《" + this.category.chapterName + "》第 " + this.questionSerialNumber + " 题";
+                return "当前做到《" + this.category.chapterName + "》第 " + questionSerialNumber + " 题";
             },
         },
     };
