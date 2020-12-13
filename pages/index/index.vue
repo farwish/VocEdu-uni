@@ -110,7 +110,6 @@
             }
         },
         onLoad() {
-            this.getMenu()
         },
         async onShow() {
             const self = this
@@ -118,6 +117,9 @@
             // Load data
             await self.getPractiseRecord()
             await self.getPractiseSummary()
+
+            // Load menu
+            self.getMenu(self.categoryId)
 
             // Force update page
             self.$forceUpdate()
@@ -175,13 +177,16 @@
                     self.notesCount = res.data.notesCount
                 }
             },
-            async getMenu(){
+            async getMenu(cid){
                 const self = this
                 const res = await self.$apiRequest({
                     url: self.$apiList.getMenu,
                     method: 'GET',
                     header: {
                         Authorization: 'Bearer ' + self.$store.state.member.memberToken
+                    },
+                    data: {
+                        cid: cid
                     }
                 })
 
