@@ -64,8 +64,9 @@ export const apiRequest = (options) => {
                         resolve('')
                     }, 1500)
                 } else {
+                    // Message control by server side
                     uni.showToast({
-                        title: '内部错误',
+                        title: res.data.message,
                         icon: 'none'
                     })
                     resolve('')
