@@ -1,24 +1,51 @@
 <template>
     <view>
         <u-cell-group v-if="category.chapterName" >
-          <u-cell-item :label="noticeBarText" :arrow="false"></u-cell-item>
+            <u-cell-item :label="noticeBarText" :arrow="false"></u-cell-item>
         </u-cell-group>
 
         <u-cell-group v-if="category.chapterName" >
-          <u-cell-item v-for="item in chapterList" :key="item.id" :title="item.name" @click="loadChapter(item.id, item.name)"></u-cell-item>
+            <u-cell-item v-for="item in chapterList"
+                :key="item.id" :title="item.name"
+                @click="loadChapter(item.id, item.name, item.subLock)"
+                :arrow="item.subLock == 0"
+            >
+                <u-icon v-if="item.subLock != 0" size="35" name="lock-fill"></u-icon>
+            </u-cell-item>
         </u-cell-group>
 
-       <!-- <uni-list v-if="chapterName">
-            <uni-list-item :showArrow="false"  title="" :note="noticeBarText"></uni-list-item>
-        </uni-list>
+        <u-popup v-model="subLockTipShow" mode="center" border-radius="10" :closeable="true" :mask-close-able="false">
+            <view class="subLockContent">
+                <u-table border-color="#fff">
+                    <u-tr class="subLockTableTr">
+                        <u-td>您当前的班次为 <b>试用版</b></u-td>
+                    </u-tr>
+                    <u-tr class="subLockTableTr">
+                        <u-td>该功能需购买任一套餐方可使用</u-td>
+                    </u-tr>
+                    <u-tr class="subLockTableTr">
+                        <u-td>如果您已经购买，请重新登录</u-td>
+                    </u-tr>
+                </u-table>
 
-        <uni-list v-if="chapterList">
-            <template v-for="item in chapterList">
-            <uni-list-item :key="item.id" :title="item.name" @click="loadChapter(item.id, item.name)"></uni-list-item>
-</template>
-    </uni-list>-->
+                <u-button class="subLockBtn" type="primary" size="medium" shape="circle" @click="subLockConfirm">去购买</u-button>
+            </view>
+        </u-popup>
   </view>
 </template>
+
+<style scoped>
+    .subLockContent {
+        padding: 50rpx;
+        text-align: center;
+    }
+    .subLockTableTr {
+        margin: 30rpx;
+    }
+    .subLockBtn {
+        margin: 30rpx;
+    }
+</style>
 
 <script>
     let cache = []
@@ -34,7 +61,9 @@
                     chapterName: "",
                 },
                 chapterList: [],
-                currentIndex: 0
+                currentIndex: 0,
+
+                subLockTipShow: false
             };
         },
         async onShow() {
@@ -61,7 +90,7 @@
                         title: category.categoryName,
                     });
                 } else {
-                    await self.loadChapter(0, null);
+                    await self.loadChapter(0, null, 0);
                 }
                 await self.getPractiseRecord();
             } else  {
@@ -113,8 +142,14 @@
                     }
                 }
             },
-            async loadChapter(pid, chapterName) {
+            async loadChapter(pid, chapterName, subLock) {
                 const self = this;
+
+                // subLock check
+                if (subLock != 0) {
+                    self.subLockTipShow = true
+                    return
+                }
 
                 let cid = self.category.categoryId || uni.getStorageSync('cid')
                 if (cid == '' || cid == 'undefined') {
@@ -158,6 +193,15 @@
                     }
                 }
             },
+
+            subLockConfirm () {
+                const self = this
+
+                self.subLockTipShow = false
+                uni.navigateTo({
+                    url: `/pages/index/open-subject`
+                })
+            }
         },
         computed: {
             noticeBarText() {

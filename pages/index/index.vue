@@ -30,18 +30,48 @@
             :is-full="true"
             :is-shadow="true"
             note="海量题库 快速背题"
-            @click="choseChapter(categoryId)"
+            @click="choseChapter(categoryId, 0)"
         >
             章节练习
         </uni-card>-->
         <u-row gutter="16">
             <u-col span="6" v-for="(item,index) in cardList" :key="index">
-                <card @click="choseChapter(item.id)" :index="index" :title="item.title" :subTitle="item.subTitle" :icon-name="item.icon" ></card>
+                <card @click="choseChapter(item.id, item.subLock)" :index="index" :title="item.title" :subTitle="item.subTitle" :icon-name="item.icon" ></card>
             </u-col>
         </u-row>
 
+        <u-popup v-model="subLockTipShow" mode="center" border-radius="10" :closeable="true" :mask-close-able="false">
+            <view class="subLockContent">
+                <u-table border-color="#fff">
+                    <u-tr class="subLockTableTr">
+                        <u-td>您当前的班次为 <b>试用版</b></u-td>
+                    </u-tr>
+                    <u-tr class="subLockTableTr">
+                        <u-td>该功能需购买任一套餐方可使用</u-td>
+                    </u-tr>
+                    <u-tr class="subLockTableTr">
+                        <u-td>如果您已经购买，请重新登录</u-td>
+                    </u-tr>
+                </u-table>
+
+                <u-button class="subLockBtn" type="primary" size="medium" shape="circle" @click="subLockConfirm">去购买</u-button>
+            </view>
+        </u-popup>
     </view>
 </template>
+
+<style scoped>
+    .subLockContent {
+        padding: 50rpx;
+        text-align: center;
+    }
+    .subLockTableTr {
+        margin: 30rpx;
+    }
+    .subLockBtn {
+        margin: 30rpx;
+    }
+</style>
 
 <script>
     import uniNoticeBar from '@/components/uni-notice-bar/uni-notice-bar.vue'
@@ -74,7 +104,9 @@
                 wrongsCount: 0,
                 collectsCount: 0,
                 notesCount: 0,
-                cardList:[]
+                cardList:[],
+
+                subLockTipShow: false,
             }
         },
         onLoad() {
@@ -91,12 +123,6 @@
             self.$forceUpdate()
         },
 
-        // Uni only, sometimes not infect
-        // onNavigationBarButtonTap(e) {
-        //     uni.navigateTo({
-        //         url: '/pages/index/current-subject'
-        //     })
-        // },
         methods: {
             // Same in chose-chapter.vue
             async getPractiseRecord() {
@@ -163,8 +189,14 @@
                     this.cardList = res.data
                 }
             },
-            choseChapter(categoryId) {
+            choseChapter(categoryId, subLock) {
                 const self = this
+
+                // subLock check
+                if (subLock != 0) {
+                    self.subLockTipShow = true
+                    return
+                }
 
                 uni.setStorageSync('cid', self.categoryId)
                 uni.setStorageSync('categoryName', self.categoryName)
@@ -178,6 +210,15 @@
                     url: '/pages/index/current-subject'
                 })
             },
+
+            subLockConfirm () {
+                const self = this
+
+                self.subLockTipShow = false
+                uni.navigateTo({
+                    url: `/pages/index/open-subject`
+                })
+            }
         },
         computed: {
             noticeBarText() {
