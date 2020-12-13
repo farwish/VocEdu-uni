@@ -179,6 +179,11 @@
             },
             async getMenu(cid){
                 const self = this
+                
+                if (cid == '') {
+                    return
+                }
+                
                 const res = await self.$apiRequest({
                     url: self.$apiList.getMenu,
                     method: 'GET',
