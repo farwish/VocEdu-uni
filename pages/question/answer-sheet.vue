@@ -1,6 +1,6 @@
 <template>
 	<view>
-        <button v-if="questionList.length > 0 && openStatus == 0" size="mini" class="tabBtn" type="primary" @click="categoryOpen()">开通科目</button>
+        <button v-if="questionList && questionList.length > 0 && openStatus == 0" size="mini" class="tabBtn" type="primary" @click="categoryOpen()">开通科目</button>
 
         <uni-grid :column="8" @change="gridClicked" class="gridCustom">
             <uni-grid-item v-for="(item, idx) in questionList" :index="item.id" :class="item.done ? 'questionDone' : ''">

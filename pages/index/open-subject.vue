@@ -31,7 +31,7 @@
                         </view>
                     </u-col>
                     <u-col span="3">
-                      <u-button @tap="buy" type="success" shape="circle" :custom-style="{height:'50rpx'}">购买</u-button>
+                      <u-button @tap="buy(item.id)" type="success" shape="circle" :custom-style="{height:'50rpx'}">购买</u-button>
                     </u-col>
                 </u-row>
             </view>
@@ -73,7 +73,7 @@
                   self.list = res.data
                 }
             },
-            async buy() {
+            async buy(kid) {
                 const self = this
 
                 const cid = uni.getStorageSync('cid')
@@ -87,6 +87,7 @@
                     },
                     data: {
                         cid: cid,
+                        kid: kid,
                     }
                 })
 

@@ -132,6 +132,7 @@
                 })
                 if (res.code == 0) {
                     if (res.data.length == 0) {
+                        uni.setStorageSync('cid', pid)
                         await self.saveChosenCategory(pid)
                     } else {
                         let index = cache.length
