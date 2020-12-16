@@ -12,17 +12,14 @@
         </u-navbar>
         </view>
 
-        <uni-grid :column="2" :show-border="false" :highlight="false" class="gridCustom">
-            <uni-grid-item>
+        <u-grid :col="2" :border="false" class="gridCustom">
+            <u-grid-item bg-color="#E8581B">
                 <text class="text">错题 {{ wrongsCount }}</text>
-            </uni-grid-item>
-            <uni-grid-item>
+            </u-grid-item>
+            <u-grid-item bg-color="#E8581B">
                 <text class="text">笔记 {{ notesCount }}</text>
-            </uni-grid-item>
-            <!-- <uni-grid-item>
-                <text class="text">{{ collects }}</text>
-            </uni-grid-item> -->
-        </uni-grid>
+            </u-grid-item>
+        </u-grid>
 
         <uni-notice-bar :single="true" :showIcon="true" :scrollable="true" :speed=60 :text="noticeBarText"></uni-notice-bar>
 
@@ -61,15 +58,26 @@
 </template>
 
 <style scoped>
+    .container {
+        font-size: 32rpx;
+        /* line-height: 24px; */
+    }
+
+    .text {
+        text-align: center;
+        color: #FFFFFF;
+        padding: 100rpx 0;
+    }
+
     .subLockContent {
         padding: 50rpx;
         text-align: center;
     }
     .subLockTableTr {
-        margin: 30rpx;
+        margin: 10rpx;
     }
     .subLockBtn {
-        margin: 30rpx;
+        margin: 10rpx;
     }
 </style>
 
@@ -142,7 +150,7 @@
                     if (res.data.length == 0) {
                         // goto chose subject
                         uni.navigateTo({
-                            url: './chose-subject'
+                            url: './chose-subject?index=1'
                         })
                     } else {
                         self.navbarTitle = res.data.categoryName + ' ▾'
@@ -179,11 +187,11 @@
             },
             async getMenu(cid){
                 const self = this
-                
+
                 if (cid == '') {
                     return
                 }
-                
+
                 const res = await self.$apiRequest({
                     url: self.$apiList.getMenu,
                     method: 'GET',
@@ -237,23 +245,3 @@
         }
     }
 </script>
-
-<style lang="scss">
-    .container {
-        /* padding: 20px; */
-        font-size: 14px;
-        line-height: 24px;
-    }
-
-    .text {
-        text-align: center;
-        color: #FFFFFF;
-        padding: 100rpx 0;
-    }
-
-    .gridCustom {
-        height: 250rpx;
-        background-color: #E8581B;
-    }
-
-</style>

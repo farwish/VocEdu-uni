@@ -66,11 +66,11 @@
                 subLockTipShow: false
             };
         },
-        async onShow() {
+        async onLoad(options) {
             const self = this;
 
             // get record for notice info, then load chapter
-            const index = self.options.index
+            const index = options.index
             const cid = uni.getStorageSync('cid')
             const name = uni.getStorageSync('categoryName')
 
@@ -102,15 +102,15 @@
             // Force update page
             self.$forceUpdate()
         },
-        onUnload() {
-            const self = this
-            const {
-                index
-            } = self.options
-            if (index === '1') {
-                cache = []
-                category = null
-            }
+        onUnload(options) {
+            // const self = this
+
+            // const index = options.index
+
+            // if (index === '1') {
+            //     cache = []
+            //     category = null
+            // }
         },
         methods: {
             // Same in index.vue
@@ -127,7 +127,7 @@
                     if (res.data.length == 0) {
                         // goto chose subject
                         uni.navigateTo({
-                            url: "./chose-subject",
+                            url: "./chose-subject?index=1",
                         });
                     } else {
                         uni.setNavigationBarTitle({

@@ -42,7 +42,7 @@ export default {
     methods: {
         gotoChoseSubject () {
             uni.navigateTo({
-                url: '/pages/index/chose-subject'
+                url: '/pages/index/chose-subject?index=1'
             })
         },
         gotoOpenedSubject () {

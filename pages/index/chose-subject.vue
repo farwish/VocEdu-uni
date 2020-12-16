@@ -28,9 +28,9 @@
                 currentIndex:''
             }
         },
-        async onShow() {
+        async onLoad(options) {
             const self = this
-            const { index } = self.options
+            const { index } = options
 
             if (index) {
                 index > 1 ? self.showUniListFormat = true : self.showUniListFormat = false
@@ -40,20 +40,20 @@
                 } else {
                     await self.loadCategory(0)
                 }
-            } else if (self.route === 'pages/index/chose-subject') {
+            } else {
                 uni.redirectTo({
                     url: '/pages/index/chose-subject?index=1'
                 })
             }
         },
         onUnload() {
-            const self = this
-            const {
-                index
-            } = self.options
-            if (index === '1') {
-                cache = []
-            }
+            // const self = this
+            // const {
+            //     index
+            // } = self.options
+            // if (index === '1') {
+            //     cache = []
+            // }
         },
         methods: {
             clear() {

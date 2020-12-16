@@ -79,13 +79,13 @@
 
                         break;
                     case 1:
-                        if (self.$route.path != '/pages/question/question-detail') {
-                            uni.showToast({
-                                title: '请选题',
-                                icon: 'none'
-                            })
-                            return false
-                        }
+                        // if (self.$route.path != '/pages/question/question-detail') {
+                        //     uni.showToast({
+                        //         title: '请选题',
+                        //         icon: 'none'
+                        //     })
+                        //     return false
+                        // }
 
                         self.noteAreaShow = true
                         return false
@@ -93,9 +93,9 @@
                         break;
                     case 0:
                         // only click once
-                        if (self.$route.path == '/pages/question/answer-sheet') {
-                            return false
-                        }
+                        // if (self.$route.path == '/pages/question/answer-sheet') {
+                        //     return false
+                        // }
 
                         // dont keep history
                         uni.redirectTo({
