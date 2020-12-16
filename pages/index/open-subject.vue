@@ -31,7 +31,7 @@
                         </view>
                     </u-col>
                     <u-col span="3">
-                      <u-button @tap="buy(item.id)" type="success" shape="circle" :custom-style="{height:'50rpx'}">购买</u-button>
+                      <u-button @click="buy(item.id)" type="success" shape="circle" :custom-style="{height:'50rpx'}">购买</u-button>
                     </u-col>
                 </u-row>
             </view>
