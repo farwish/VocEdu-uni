@@ -27,6 +27,9 @@ export default {
     async onShow () {
         const self = this
 
+        // Clear qid value for tabbar of note
+        uni.removeStorageSync('qid')
+
         const pid = uni.getStorageSync('pid')
         const name = uni.getStorageSync('chapterName')
 

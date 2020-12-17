@@ -52,10 +52,10 @@ export const apiRequest = (options) => {
                     resolve(retData)
                 } else if (res.statusCode == 401) {
                     // Deal with 401 (Unauthorized)
-                    uni.showToast({
-                        title: res.data.message,
-                        icon: 'none'
-                    })
+                    // uni.showToast({
+                    //     title: res.data.message,
+                    //     icon: 'none'
+                    // })
                     setTimeout(function () {
                         // Close other pages and redirect
                         uni.redirectTo({

@@ -79,24 +79,20 @@
 
                         break;
                     case 1:
-                        // if (self.$route.path != '/pages/question/question-detail') {
-                        //     uni.showToast({
-                        //         title: '请选题',
-                        //         icon: 'none'
-                        //     })
-                        //     return false
-                        // }
+                        const qid = uni.getStorageSync('qid')
+                        if (qid == '' || qid == undefined) {
+                            uni.showToast({
+                                title: '请选题',
+                                icon: 'none'
+                            })
+                            return
+                        }
 
                         self.noteAreaShow = true
                         return false
 
                         break;
                     case 0:
-                        // only click once
-                        // if (self.$route.path == '/pages/question/answer-sheet') {
-                        //     return false
-                        // }
-
                         // dont keep history
                         uni.redirectTo({
                             url: self.list[index].basePath
@@ -115,6 +111,13 @@
                 const self = this
 
                 const qid = uni.getStorageSync('qid')
+                if (qid == '' || qid == undefined) {
+                    uni.showToast({
+                        title: '请选题',
+                        icon: 'none'
+                    })
+                    return
+                }
 
                 self.$apiRequest({
                     url: self.$apiList.questionNote,

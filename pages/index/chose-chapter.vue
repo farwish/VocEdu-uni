@@ -1,13 +1,13 @@
 <template>
     <view>
-        <u-cell-group v-if="category.chapterName" >
+        <u-cell-group v-if="chapterList" >
             <u-cell-item :label="noticeBarText" :arrow="false"></u-cell-item>
         </u-cell-group>
 
-        <u-cell-group v-if="category.chapterName" >
+        <u-cell-group v-if="chapterList" >
             <u-cell-item v-for="item in chapterList"
                 :key="item.id" :title="item.name"
-                @click="loadChapter(item.id, item.name, item.subLock)"
+                @click="walkChapter(item.id, item.name, item.subLock)"
                 :arrow="item.subLock == 0"
             >
                 <u-icon v-if="item.subLock != 0" size="35" name="lock-fill"></u-icon>
@@ -48,20 +48,14 @@
 </style>
 
 <script>
-    let cache = []
-    let category = null
-    let questionSerialNumber = 0 // set global for practise record only request once
     export default {
         components: {},
         data() {
             return {
-                category:{
-                    categoryId: "",
-                    categoryName: "",
-                    chapterName: "",
-                },
                 chapterList: [],
+                chapterListForPreCheck: [],
                 currentIndex: 0,
+                questionSerialNumber: '',
 
                 subLockTipShow: false
             };
@@ -70,7 +64,6 @@
             const self = this;
 
             // get record for notice info, then load chapter
-            const index = options.index
             const cid = uni.getStorageSync('cid')
             const name = uni.getStorageSync('categoryName')
 
@@ -81,36 +74,28 @@
                 return
             }
 
-            if (index) {
-                this.currentIndex = index - 1
-                if (cache[this.currentIndex]) {
-                    self.chapterList = cache[this.currentIndex]
-                    self.category = category
-                    uni.setNavigationBarTitle({
-                        title: category.categoryName,
-                    });
-                } else {
-                    await self.loadChapter(0, null, 0);
-                }
-                await self.getPractiseRecord();
-            } else  {
-                uni.redirectTo({
-                    url: `/pages/index/chose-chapter?index=1`
-                })
+            // set default parent chapter id when not set.
+            let pid = (options.pid == '' || options.pid == undefined) ? 0 : options.pid
+
+            await self.loadChapter(pid, name, 0);
+
+            if (self.chapterListForPreCheck.length == 0) {
+                uni.navigateTo({
+                    url: "/pages/question/answer-sheet"
+                });
+                return
+            } else {
+                self.chapterList = self.chapterListForPreCheck
             }
 
             // Force update page
             self.$forceUpdate()
         },
+        async onShow () {
+            const self = this
+            await self.getPractiseRecord();
+        },
         onUnload(options) {
-            // const self = this
-
-            // const index = options.index
-
-            // if (index === '1') {
-            //     cache = []
-            //     category = null
-            // }
         },
         methods: {
             // Same in index.vue
@@ -133,12 +118,8 @@
                         uni.setNavigationBarTitle({
                             title: res.data.categoryName,
                         });
-                        // For chose-chapter page
-                        // const {categoryId,categoryName,chapterName,questionSerialNumber} = res.data
-                        self.category = res.data
-                        category = res.data
 
-                        questionSerialNumber = res.data.questionSerialNumber
+                        self.questionSerialNumber = res.data.questionSerialNumber
                     }
                 }
             },
@@ -151,7 +132,7 @@
                     return
                 }
 
-                let cid = self.category.categoryId || uni.getStorageSync('cid')
+                let cid = uni.getStorageSync('cid')
                 if (cid == '' || cid == 'undefined') {
                     return
                 }
@@ -169,28 +150,39 @@
                 });
                 if (chapterRes.code == 0) {
                     if (chapterRes.data.length > 0) {
-                        // assign chapter data
-                        let index = cache.length
-                        cache[index] = chapterRes.data;
-                        index = cache.length
-                        if (index > 1) {
-                            uni.navigateTo({
-                                 url: `/pages/index/chose-chapter?index=${index}`
-                            })
-                        }
-                        self.chapterList = chapterRes.data;
+                        // final is self.chapterList
+                        self.chapterListForPreCheck = chapterRes.data
                     } else {
-                        // last chapter: pid(parent_id) as chapter_id to query questions
-                        const chapterId = pid;
+                        self.chapterListForPreCheck = []
 
                         // local store cid + pid + chapterName
                         uni.setStorageSync('cid', cid)
-                        uni.setStorageSync('pid', chapterId)
+                        uni.setStorageSync('pid', pid)
                         uni.setStorageSync('chapterName', chapterName)
-                        uni.navigateTo({
-                            url: "/pages/question/answer-sheet"
-                        });
                     }
+                }
+            },
+
+            async walkChapter (pid, name, subLock) {
+                const self = this
+
+                // subLock check
+                if (subLock != 0) {
+                    self.subLockTipShow = true
+                    return
+                }
+
+                await self.loadChapter(pid, name, subLock)
+
+                if (self.chapterListForPreCheck.length == 0) {
+                    uni.navigateTo({
+                        url: "/pages/question/answer-sheet"
+                    });
+                    return
+                } else {
+                    uni.navigateTo({
+                        url: `/pages/index/chose-chapter?pid=${pid}`
+                    })
                 }
             },
 
@@ -205,7 +197,8 @@
         },
         computed: {
             noticeBarText() {
-                return "当前做到《" + this.category.chapterName + "》第 " + questionSerialNumber + " 题";
+                const self = this
+                return "当前做到《" + uni.getStorageSync('categoryName') + "》题目 " + self.questionSerialNumber + ' .';
             },
         },
     };

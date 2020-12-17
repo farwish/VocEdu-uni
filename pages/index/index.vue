@@ -33,7 +33,7 @@
         </uni-card>-->
         <u-row gutter="16">
             <u-col span="6" v-for="(item,index) in cardList" :key="index">
-                <card @click="choseChapter(item.id, item.subLock)" :index="index" :title="item.title" :subTitle="item.subTitle" :icon-name="item.icon" ></card>
+                <card @click="choseChapter(categoryId, item.subLock)" :index="index" :title="item.title" :subTitle="item.subTitle" :icon-name="item.icon" ></card>
             </u-col>
         </u-row>
 
@@ -102,8 +102,8 @@
                 backgroundColor: {
                     background: 'rgb(0, 122, 255)'
                 },
-                navbarTitle: '',
 
+                navbarTitle: '',
                 categoryId: '',
                 categoryName: '',
                 chapterName: '',
