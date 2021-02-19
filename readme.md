@@ -16,3 +16,7 @@
 [uni storage](https://uniapp.dcloud.io/api/storage/storage?id=setstorage)
 
 [navigate to](https://uniapp.dcloud.io/api/router?id=navigateto)
+
+## contact
+
+wechat: farwish
