@@ -1,0 +1,23 @@
+{
+  "name": "VocEdu-uni",
+  "version": "1.0.0",
+  "description": "项目是使用uni-app官方编辑器 HBuilder 建立的默认项目。",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farwish/VocEdu-uni.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache2.0",
+  "bugs": {
+    "url": "https://github.com/farwish/VocEdu-uni/issues"
+  },
+  "homepage": "https://github.com/farwish/VocEdu-uni#readme",
+  "dependencies": {
+    "uview-ui": "^1.8.4"
+  }
+}

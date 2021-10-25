@@ -1,3 +1,7 @@
+<style lang="scss">
+	/* 注意要写在第一行，同时给style标签加入lang="scss"属性 */
+	@import "uview-ui/index.scss";
+</style>
 <script>
 export default {
 	onLaunch: function() {
@@ -53,7 +57,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./uview-ui/index.scss";
+
 /* 解决头条小程序组件内引入字体不生效的问题 */
 /* #ifdef MP-TOUTIAO */
 @font-face {

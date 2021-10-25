@@ -1,4 +1,8 @@
 unpackage/dist/*
 .DS_Store
-.idea
 .history
+
+.hbuilderx/
+.idea/
+
+node_modules/
