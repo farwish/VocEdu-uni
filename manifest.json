@@ -51,7 +51,7 @@
         "title" : "模拟考试系统",
         "router" : {
             "mode" : "hash",
-            "base" : "/vocmob"
+            "base" : "/mobi"
         },
         "optimization" : {
             "treeShaking" : {
@@ -66,6 +66,9 @@
                 "changeOrigin" : true
             }
         },
-        "domain" : "121.41.123.125:8889"
+        "domain" : "121.41.123.125:8889",
+        "devServer" : {
+            "https" : false
+        }
     }
 }
